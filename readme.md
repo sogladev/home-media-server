@@ -1,7 +1,7 @@
 # Home Media Server 
 `docker-compose.yml` for a home media server stack:
 transmission (+ openvpn), jackett, radarr, sonarr, lidarr, calibre,
-calibre-web, plex
+calibre-web, plex, soulseekqt
 ##  Folder structure
 ```
  /
@@ -13,6 +13,7 @@ calibre-web, plex
       ├── plex
       ├── radarr
       ├── sonarr
+      ├── soulseek
       └── transmission
  │
  ├── downloads
@@ -21,6 +22,7 @@ calibre-web, plex
            ├── movies
            ├── music
            └── tv
+      ├── soulseekqt
       └── incomplete
 └── media              
      ├── books
