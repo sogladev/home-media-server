@@ -38,6 +38,7 @@ radarr                   | movies
 lidarr (**)              | music
 sonarr                   | tv
 plex                     | movies music tv
+soulseek                 | downloads
 
 To download books/music I prefer the following. I suspect private/usenet
 trackers are best for books/music but I stick to public torrent trackers. 
@@ -65,6 +66,7 @@ Port                   | Application
 8081       | calibre
 7880       | radarr 
 32400      | plex
+6080       | soulseek
 
 ## Jackett
 Add some trackers
@@ -108,6 +110,9 @@ api_endpoint=https://storeapi.kobo.com
 Users can generate a URL to sync with Calibre-Web instead by clicking the
 Create/View button under their Calibre-Web profile page.
 ```
+
+## Soulseek
+setup share folder(s)
 
 # Credits
 inspirted by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)

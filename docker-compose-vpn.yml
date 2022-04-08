@@ -27,6 +27,7 @@ services:
        - 8081:8081       # calibre
        - 7880:7878       # radarr 7878 used by SOAP
        - 32400:32400     # plex
+       - 6080:6080       # soulseek
     restart: always
 
  jackett:
@@ -112,3 +113,16 @@ services:
     env_file:
         - stack.env
     restart: unless-stopped    
+
+ soulseek:
+    image: realies/soulseek
+    network_mode: "service:transmission-openvpn"
+    container_name: soulseek
+    volumes:
+       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
+       - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
+       - /home/${USER}/.local/log/soulseek:/data/Soulseek Chat Logs
+       - /media/${USER}/Data/media/music/:/data/public/music
+    env_file:
+       - stack.env
+    restart: unless-stopped
