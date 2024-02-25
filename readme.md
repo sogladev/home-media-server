@@ -50,21 +50,31 @@ trackers are best for books/music but I stick to public torrent trackers.
 ```
 
 # Launch
+
+## Using portainer
 copypaste `docker-compose*.yml` to portainer 
 
 config and add `home-media-server*.env` to portainer
 
-Alternatively,
-setup a folder so that:
-.
-├── docker-compose-novpn.yml.secret
-└── stack.env (renamed from *.env)
-```
-docker compose -f ./docker-compose-novpn.yml.secret up
-stack.env
-```
-
 launch stack
+
+## Docker desktop 
+follow all the stepts incl. apt, group,..
+
+https://docs.docker.com/desktop/install/linux-install/
+
+setup settings -> resources -> file sharing
+
+setup a folder so that:
+```
+.
+├── docker-compose.yml
+└── stack.env
+```
+then run
+```
+docker compose up
+```
 
 # Config
 Config through web by going to `http://0.0.0.0:{port}/`
