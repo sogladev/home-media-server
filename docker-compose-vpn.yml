@@ -7,8 +7,8 @@ services:
     volumes:
         - /media/${USER}/Data/downloads:/downloads
         - /etc/localtime:/etc/localtime:ro
-        - /home/jelle/.secrets/nl-free-23.protonvpn.com.udp.ovpn:/etc/openvpn/custom/default.ovpn
-        - /home/jelle/.secrets/openvpn-credentials.txt:/config/openvpn-credentials.txt
+        - /home/${USER}/.secrets/nl-free-23.protonvpn.com.udp.ovpn:/etc/openvpn/custom/default.ovpn
+        - /home/${USER}/.secrets/openvpn-credentials.txt:/config/openvpn-credentials.txt
     env_file:
         - stack.env
     cap_add:
@@ -16,7 +16,7 @@ services:
     logging:
         driver: json-file
         options:
-            max-size: 10m
+            max-size: 10m # increase json import size
     ports:
        - 9091:9091
        - 9117:9117       # jackett
@@ -121,7 +121,7 @@ services:
     volumes:
        - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
        - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-       - /home/${USER}/.local/log/soulseek:/data/Soulseek Chat Logs
+       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
        - /media/${USER}/Data/media/music/:/data/public/music
     env_file:
        - stack.env

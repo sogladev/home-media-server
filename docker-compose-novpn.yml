@@ -27,7 +27,6 @@ services:
         - 8082:8081       # calibre 8081 conflict with npm react
         - 7880:7878       # radarr 7878 used by SOAP
         #- 32400:32400     # plex
-        - 6080:6080       # soulseek
     restart: unless-stopped
  
  jackett:
@@ -116,13 +115,15 @@ services:
 
  soulseek:
     image: realies/soulseek
-    network_mode: "service:transmission"
     container_name: soulseek
     volumes:
        - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
        - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-       - /home/${USER}/.local/log/soulseek:/data/Soulseek Chat Logs
-       - /media/${USER}/Data/media/music/:/data/public/music
+       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
+       # Shared folders
+       - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
+    ports:
+        - "6080:6080"
     env_file:
-       - stack.env
+       - stack_portainer.env
     restart: unless-stopped

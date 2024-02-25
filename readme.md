@@ -136,5 +136,13 @@ Create/View button under their Calibre-Web profile page.
 ## Soulseek
 setup share folder(s)
 
+vpn is not tested with soulseek.
+potential issues: 
+
+1. stuck on `chown` looping through shared media when PUID,PGID is set. Portainer uses its own *portainer.env without setting PUID,PGID
+
+2. portainer uses 6080:6080. "oVNC might not connect through service:transmission-openvpn
+
+
 # Credits
 inspirted by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)
