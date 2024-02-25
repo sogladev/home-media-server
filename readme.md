@@ -54,6 +54,16 @@ copypaste `docker-compose*.yml` to portainer
 
 config and add `home-media-server*.env` to portainer
 
+Alternatively,
+setup a folder so that:
+.
+├── docker-compose-novpn.yml.secret
+└── stack.env (renamed from *.env)
+```
+docker compose -f ./docker-compose-novpn.yml.secret up
+stack.env
+```
+
 launch stack
 
 # Config
