@@ -44,14 +44,13 @@ radarr                   | movies
 lidarr (**)              | music
 sonarr                   | tv
 plex                     | movies music tv
-soulseek                 | downloads
+soulseek                 | music downloads
 filebrowser              | local filesharing
 
-alternatives for books/music
+alternatives for books
 
 ```
 (*)  Genesis library
-(**) SoulseekQt
 ```
 
 # Launch
