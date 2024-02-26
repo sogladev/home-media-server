@@ -1,13 +1,17 @@
 # Home Media Server 
-`docker-compose.yml` for a home media server stack:
-transmission (+ openvpn), jackett, radarr, sonarr, lidarr, calibre,
-calibre-web, plex, soulseekqt
+`docker-compose.yml` for a home media server stack: transmission (+ openvpn), jackett, radarr, sonarr, lidarr, calibre, calibre-web, plex, filebrowser (local only), soulseekqt 
+
+Configurations:
+1. without VPN: `*-novpn.yml` is being used ✅
+2. with VPN `*-vpn.yml` is stale and may not work properly
+
 ##  Folder structure
 ```
  /
  ├── appdata 
  │    ├── calibre
       ├── calibre-web
+      ├── filebrowser
       ├── jackett
       ├── lidarr
       ├── plex
@@ -24,7 +28,7 @@ calibre-web, plex, soulseekqt
            └── tv
       ├── soulseekqt
       └── incomplete
-└── media              
+└── media
      ├── books
      ├── movies
      ├── music
@@ -36,14 +40,15 @@ Images                   | Use
 transmission (+ openvpn) | downloads
 readarr (*)              | books
 calibre                  | books
-radarr                   | movies         
+radarr                   | movies
 lidarr (**)              | music
 sonarr                   | tv
 plex                     | movies music tv
 soulseek                 | downloads
+filebrowser              | local filesharing
 
-To download books/music I prefer the following. I suspect private/usenet
-trackers are best for books/music but I stick to public torrent trackers. 
+alternatives for books/music
+
 ```
 (*)  Genesis library
 (**) SoulseekQt
@@ -89,6 +94,7 @@ Port                   | Application
 7880       | radarr 
 32400      | plex
 6080       | soulseek
+8090       | filebrowser
 
 ## Jackett
 Add some trackers
@@ -132,6 +138,35 @@ api_endpoint=https://storeapi.kobo.com
 Users can generate a URL to sync with Calibre-Web instead by clicking the
 Create/View button under their Calibre-Web profile page.
 ```
+
+## Filebrowser
+
+`- /home/${USER}/Applications/Filebrowser:/srv`
+
+Mounts a single folder called Filebrowser to /srv. This folder must be empty.
+
+ Other folders are mounted as such: /srv/Pictures
+so they are accessible in the container as /Pictures
+
+This will create Pictures/ under Applications. Pictures/ will be empty
+
+filebrowser.db must exist before mounting, else mounts a directory
+`touch filebrowser.db`
+
+same with settings.json
+```
+❯ cat settings.json
+{
+  "port": 80,
+  "baseURL": "",
+  "address": "",
+  "log": "stdout",
+  "database": "/database/filebrowser.db",
+  "root": "/srv"
+}           
+```
+
+admin/admin on initial login :8090
 
 ## Soulseek
 setup share folder(s)
