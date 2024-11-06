@@ -1,4 +1,4 @@
-# Home Media Server 
+# Home Media Server
 `docker-compose.yml` for a home media server stack: transmission (+ openvpn), jackett, radarr, sonarr, lidarr, calibre, calibre-web, plex, filebrowser (local only), soulseekqt 
 
 Configurations:
@@ -8,18 +8,18 @@ Configurations:
 ##  Folder structure
 ```
  /
- ├── appdata 
- │    ├── calibre
+ ├── appdata
+      ├── calibre
       ├── calibre-web
       ├── filebrowser
       ├── jackett
       ├── lidarr
+      ├── openbooks
       ├── plex
       ├── radarr
       ├── sonarr
       ├── soulseek
       └── transmission
- │
  ├── downloads
       ├── complete
            ├── books
@@ -33,13 +33,14 @@ Configurations:
      ├── movies
      ├── music
      └── tv
+
 ```
 ## Programs and their use
 Images                   | Use
 -------------------------|-----------------
 transmission (+ openvpn) | downloads
-readarr (*)              | books
 calibre                  | books
+openbooks (*)            | books
 radarr                   | movies
 lidarr (**)              | music
 sonarr                   | tv
@@ -56,13 +57,13 @@ alternatives for books
 # Launch
 
 ## Using portainer
-copypaste `docker-compose*.yml` to portainer 
+copypaste `docker-compose*.yml` to portainer
 
 config and add `home-media-server*.env` to portainer
 
 launch stack
 
-## Docker desktop 
+## Docker desktop
 follow all the stepts incl. apt, group,..
 
 https://docs.docker.com/desktop/install/linux-install/
@@ -90,7 +91,7 @@ Port                   | Application
 8083       | calibre-web
 8080       | calibre
 8081       | calibre
-7880       | radarr 
+7880       | radarr
 32400      | plex
 6080       | soulseek
 8090       | filebrowser
@@ -99,7 +100,7 @@ Port                   | Application
 Add some trackers
 
 ## Sonarr, radarr, lidarr
-Add indexer jackett 
+Add indexer jackett
 ```
 API key jackett
 torznab stream
@@ -162,7 +163,7 @@ same with settings.json
   "log": "stdout",
   "database": "/database/filebrowser.db",
   "root": "/srv"
-}           
+}
 ```
 
 admin/admin on initial login :8090
@@ -176,6 +177,11 @@ potential issues:
 1. stuck on `chown` looping through shared media when PUID,PGID is set. Portainer uses its own *portainer.env without setting PUID,PGID
 
 2. portainer uses 6080:6080. "oVNC might not connect through service:transmission-openvpn
+
+## Openbooks
+http://0.0.0.0:8099/openbooks/
+
+https://evan-buss.github.io/openbooks/setup/docker/
 
 
 # Credits
