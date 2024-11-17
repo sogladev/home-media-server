@@ -1,4 +1,4 @@
-name: validate-env
+name: validate-docker-compose
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   validate-docker-compose:
+    name: runner / docker-compose-linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
