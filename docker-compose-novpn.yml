@@ -1,6 +1,8 @@
+name: "home-media-server-novpn"
+
 services:
   calibre:
-    image: linuxserver/calibre
+    image: linuxserver/calibre:tag
     container_name: calibre
     volumes:
       - /media/${USER}/Data/appdata/calibre:/config
@@ -12,7 +14,7 @@ services:
     restart: unless-stopped
 
   calibre-web:
-    image: linuxserver/calibre-web
+    image: linuxserver/calibre-web:tag
     container_name: calibre-web
     volumes:
       - /media/${USER}/Data/appdata/calibre-web:/config
@@ -23,7 +25,7 @@ services:
     restart: unless-stopped
 
   filebrowser:
-    image: filebrowser/filebrowser
+    image: filebrowser/filebrowser:tag
     container_name: filebrowser
     volumes:
       - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
@@ -40,7 +42,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    image: linuxserver/jackett
+    image: linuxserver/jackett:tag
     container_name: jackett
     depends_on:
       - transmission
@@ -52,7 +54,7 @@ services:
     restart: unless-stopped
 
   lidarr1:
-    image: linuxserver/lidarr
+    image: linuxserver/lidarr:tag
     container_name: "lidarr-main"
     volumes:
       - /media/${USER}/Data/appdata/lidarr1:/config
@@ -65,7 +67,7 @@ services:
     restart: unless-stopped
 
   openbooks:
-    image: evanbuss/openbooks:latest
+    image: evanbuss/openbooks:tag
     container_name: openbooks
     volumes:
       - /media/${USER}/Data/media/books_not_in_library:/books
@@ -79,7 +81,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: linuxserver/plex
+    image: linuxserver/plex:tag
     container_name: plex
     volumes:
       - /media/${USER}/Data/appdata/plex:/config
@@ -97,7 +99,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: linuxserver/radarr
+    image: linuxserver/radarr:tag
     container_name: radarr
     volumes:
       - /media/${USER}/Data/appdata/radarr:/config
@@ -109,7 +111,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:tag
     container_name: sonarr
     volumes:
       - /media/${USER}/Data/appdata/sonarr:/config
@@ -121,7 +123,7 @@ services:
     restart: unless-stopped
 
   soulseek:
-    image: realies/soulseek
+    image: realies/soulseek:tag
     container_name: soulseek
     volumes:
       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
@@ -135,7 +137,7 @@ services:
       - '6080:6080'
     restart: unless-stopped
   transmission:
-    image: linuxserver/transmission
+    image: linuxserver/transmission:tag
     container_name: transmission
     volumes:
       - /media/${USER}/Data/downloads:/downloads
@@ -151,8 +153,6 @@ services:
       - '8989:8989' # sonarr
       - '9091:9091'
       - '9117:9117' # jackett
-      - '51414:51413'
-      - '51414:51413/udp'
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
