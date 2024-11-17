@@ -4,11 +4,28 @@ services:
  transmission-openvpn:
     image: haugene/transmission-openvpn
     container_name: transmission-openvpn
+    devices:
+        - "/dev/net/tun"
     volumes:
         - /media/${USER}/Data/downloads:/downloads
         - /etc/localtime:/etc/localtime:ro
-        - /home/${USER}/.secrets/nl-free-23.protonvpn.com.udp.ovpn:/etc/openvpn/custom/default.ovpn
-        - /home/${USER}/.secrets/openvpn-credentials.txt:/config/openvpn-credentials.txt
+        # May need to specify if using CUSTOM provider
+        # - /home/${USER}/.secrets/{OPENVPN_CONFIG}.ovpn:/etc/openvpn/custom/{OPENVPN_CONFIG}.ovpn
+    ports:
+       - 9091:9091
+       - 51415:51413
+       - 51415:51413/udp
+       - 8888:8888
+       - 9117:9117       # jackett
+       - 8989:8989       # sonarr
+       - 8686:8686       # lidarr
+       - 8083:8083       # calibre-web
+       - 8080:8080       # calibre
+       - 8081:8081       # calibre
+       - 7880:7878       # radarr 7878 used by SOAP
+       - 32400:32400     # plex
+       - 6080:6080       # soulseek
+       - 8099:80         # openbooks
     env_file:
         - stack.env
     cap_add:
@@ -16,18 +33,7 @@ services:
     logging:
         driver: json-file
         options:
-            max-size: 10m # increase json import size
-    ports:
-       - 9091:9091
-       - 9117:9117       # jackett
-       - 8989:8989       # sonarr
-       - 8686:8686       # lidarr
-       - 8083:8083       # calibre-web
-       - 8080:8080       # calibre
-       - 8082:8081       # calibre 8081 conflict with npm react
-       - 7880:7878       # radarr 7878 used by SOAP
-       - 32400:32400     # plex
-       - 6080:6080       # soulseek
+            max-size: 10m
     restart: always
 
  jackett:
@@ -41,7 +47,7 @@ services:
     volumes:
         - /media/${USER}/Data/appdata/jackett:/config
     restart: unless-stopped
- 
+
  radarr:
     image: linuxserver/radarr
     network_mode: "service:transmission-openvpn"
@@ -53,7 +59,7 @@ services:
         - /media/${USER}/Data/downloads:/downloads
         - /media/${USER}/Data/media:/media
     restart: unless-stopped
- 
+
  sonarr:
     image: linuxserver/sonarr
     network_mode: "service:transmission-openvpn"
@@ -65,7 +71,7 @@ services:
         - /media/${USER}/Data/downloads:/downloads
         - /media/${USER}/Data/media:/media
     restart: unless-stopped
- 
+
  lidarr:
     image: linuxserver/lidarr
     network_mode: "service:transmission-openvpn"
@@ -89,7 +95,7 @@ services:
         - /media/${USER}/Data/media/books:/books
         - /media/${USER}/Data/media/books_not_in_library:/books_add_me
     restart: unless-stopped
-    
+
  calibre-web:
     image: linuxserver/calibre-web
     network_mode: "service:transmission-openvpn"
@@ -99,7 +105,7 @@ services:
     volumes:
        - /media/${USER}/Data/appdata/calibre-web:/config
        - /media/${USER}/Data/media/books:/books
-    restart: unless-stopped    
+    restart: unless-stopped
 
  plex:
     image: linuxserver/plex
@@ -112,7 +118,7 @@ services:
         - /media/${USER}/Data/media/music:/music
     env_file:
         - stack.env
-    restart: unless-stopped    
+    restart: unless-stopped
 
  soulseek:
     image: realies/soulseek
@@ -121,8 +127,39 @@ services:
     volumes:
        - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
        - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
-       - /media/${USER}/Data/media/music/:/data/public/music
+       - /home/${USER}/.local/log/soulseek:/data/Soulseek Chat Logs
+        # Shared folders
+       - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
     env_file:
        - stack.env
+    restart: unless-stopped
+
+ filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    ports:
+      - 8090:80
+    volumes:
+      - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
+      - /media/${USER}/Data/appdata/filebrowser/settings.json:/config/settings.json
+      # Shared folders root is /srv
+      # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Applications/Filebrowser/* 
+      - /home/${USER}/Applications/Filebrowser:/srv
+      - /home/${USER}/Documents/Share:/srv/Documents
+      - /media/${USER}/Backup/Share:/srv/Backup
+    env_file:
+       - stack.env
+    restart: unless-stopped
+
+ openbooks:
+    image: evanbuss/openbooks:latest
+    network_mode: "service:transmission-openvpn"
+    container_name: openbooks
+    volumes:
+      - /media/${USER}/Data/media/books_not_in_library:/books
+    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
+    env_file:
+       - stack.env
+    environment:
+      - BASE_PATH=/openbooks/
     restart: unless-stopped
