@@ -19,7 +19,7 @@ jobs:
 
       - name: Run dclint
         id: run-dclint
-        run: npx dclint . > dclint-output.log || true
+        run: npx dclint . | tee dclint-output.log || true
 
       - name: Check for linting problems
         id: check-dclint-output
