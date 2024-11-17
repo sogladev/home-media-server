@@ -1,128 +1,162 @@
-version: '2.1'
+name: "home-media-server-vpn"
 
 services:
- transmission-openvpn:
-    image: haugene/transmission-openvpn
-    container_name: transmission-openvpn
+  calibre:
+    image: linuxserver/calibre:tag
+    container_name: calibre
     volumes:
-        - /media/${USER}/Data/downloads:/downloads
-        - /etc/localtime:/etc/localtime:ro
-        - /home/${USER}/.secrets/nl-free-23.protonvpn.com.udp.ovpn:/etc/openvpn/custom/default.ovpn
-        - /home/${USER}/.secrets/openvpn-credentials.txt:/config/openvpn-credentials.txt
+      - /media/${USER}/Data/appdata/calibre:/config
+      - /media/${USER}/Data/media/books:/books
+      - /media/${USER}/Data/media/books_not_in_library:/books_add_me
     env_file:
-        - stack.env
-    cap_add:
-        - NET_ADMIN
-    logging:
-        driver: json-file
-        options:
-            max-size: 10m # increase json import size
-    ports:
-       - 9091:9091
-       - 9117:9117       # jackett
-       - 8989:8989       # sonarr
-       - 8686:8686       # lidarr
-       - 8083:8083       # calibre-web
-       - 8080:8080       # calibre
-       - 8082:8081       # calibre 8081 conflict with npm react
-       - 7880:7878       # radarr 7878 used by SOAP
-       - 32400:32400     # plex
-       - 6080:6080       # soulseek
-    restart: always
-
- jackett:
-    image: linuxserver/jackett
+      - stack.env
     network_mode: "service:transmission-openvpn"
+    restart: unless-stopped
+
+  calibre-web:
+    image: linuxserver/calibre-web:tag
+    container_name: calibre-web
+    volumes:
+      - /media/${USER}/Data/appdata/calibre-web:/config
+      - /media/${USER}/Data/media/books:/books
+    env_file:
+      - stack.env
+    network_mode: "service:transmission-openvpn"
+    restart: unless-stopped
+
+  filebrowser:
+    image: filebrowser/filebrowser:tag
+    container_name: filebrowser
+    volumes:
+      - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
+      - /media/${USER}/Data/appdata/filebrowser/settings.json:/config/settings.json
+      # Shared folders root is /srv
+      # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Applications/Filebrowser/* 
+      - /home/${USER}/Applications/Filebrowser:/srv
+      - /home/${USER}/Documents/Share:/srv/Documents
+      - /media/${USER}/Backup/Share:/srv/Backup
+    env_file:
+      - stack.env
+    ports:
+      - '8090:80'
+    restart: unless-stopped
+
+  jackett:
+    image: linuxserver/jackett:tag
     container_name: jackett
     depends_on:
-        - transmission-openvpn
-    env_file:
-        - stack.env
+      - transmission-openvpn
     volumes:
-        - /media/${USER}/Data/appdata/jackett:/config
-    restart: unless-stopped
- 
- radarr:
-    image: linuxserver/radarr
-    network_mode: "service:transmission-openvpn"
-    container_name: radarr
+      - /media/${USER}/Data/appdata/jackett:/config
     env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/radarr:/config
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/media:/media
-    restart: unless-stopped
- 
- sonarr:
-    image: linuxserver/sonarr
+      - stack.env
     network_mode: "service:transmission-openvpn"
-    container_name: sonarr
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/sonarr:/config
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/media:/media
     restart: unless-stopped
- 
- lidarr:
-    image: linuxserver/lidarr
-    network_mode: "service:transmission-openvpn"
+
+  lidarr:
+    image: linuxserver/lidarr:tag
     container_name: lidarr
-    env_file:
-        - stack.env
     volumes:
-        - /media/${USER}/Data/appdata/lidarr:/config
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/media:/media
+      - /media/${USER}/Data/appdata/lidarr:/config
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/media:/media
+    env_file:
+      - stack.env
+    network_mode: "service:transmission-openvpn"
     restart: unless-stopped
 
- calibre:
-    image: linuxserver/calibre
-    network_mode: "service:transmission-openvpn"
-    container_name: calibre
-    env_file:
-        - stack.env
+  openbooks:
+    image: evanbuss/openbooks:tag
+    container_name: openbooks
     volumes:
-        - /media/${USER}/Data/appdata/calibre:/config
-        - /media/${USER}/Data/media/books:/books
-        - /media/${USER}/Data/media/books_not_in_library:/books_add_me
+      - /media/${USER}/Data/media/books_not_in_library:/books
+    environment:
+      - BASE_PATH=/openbooks/
+    env_file:
+      - stack.env
+    network_mode: "service:transmission-openvpn"
+    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
     restart: unless-stopped
-    
- calibre-web:
-    image: linuxserver/calibre-web
-    network_mode: "service:transmission-openvpn"
-    container_name: calibre-web
-    env_file:
-        - stack.env
-    volumes:
-       - /media/${USER}/Data/appdata/calibre-web:/config
-       - /media/${USER}/Data/media/books:/books
-    restart: unless-stopped    
 
- plex:
-    image: linuxserver/plex
-    network_mode: "service:transmission-openvpn"
+  plex:
+    image: linuxserver/plex:tag
     container_name: plex
     volumes:
-        - /media/${USER}/Data/appdata/plex:/config
-        - /media/${USER}/Data/media/tv:/tv
-        - /media/${USER}/Data/media/movies:/movies
-        - /media/${USER}/Data/media/music:/music
+      - /media/${USER}/Data/appdata/plex:/config
+      - /media/${USER}/Data/media/tv:/tv
+      - /media/${USER}/Data/media/movies:/movies
+      - /media/${USER}/Data/media/music:/music
     env_file:
-        - stack.env
-    restart: unless-stopped    
-
- soulseek:
-    image: realies/soulseek
+      - stack.env
     network_mode: "service:transmission-openvpn"
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr:tag
+    container_name: radarr
+    volumes:
+      - /media/${USER}/Data/appdata/radarr:/config
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/media:/media
+    env_file:
+      - stack.env
+    network_mode: "service:transmission-openvpn"
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr:tag
+    container_name: sonarr
+    volumes:
+      - /media/${USER}/Data/appdata/sonarr:/config
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/media:/media
+    env_file:
+      - stack.env
+    network_mode: "service:transmission-openvpn"
+    restart: unless-stopped
+
+  soulseek:
+    image: realies/soulseek:tag
     container_name: soulseek
     volumes:
-       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
-       - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
-       - /media/${USER}/Data/media/music/:/data/public/music
+      - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
+      - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
+      - /home/${USER}/.local/log/soulseek:/data/Soulseek Chat Logs # Shared folders
+      - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
     env_file:
-       - stack.env
+      - stack.env
+    network_mode: "service:transmission-openvpn"
     restart: unless-stopped
+
+  transmission-openvpn:
+    image: haugene/transmission-openvpn:tag
+    container_name: transmission-openvpn
+    volumes:
+      - /media/${USER}/Data/downloads:/downloads
+      - /etc/localtime:/etc/localtime:ro
+      # May need to specify if using CUSTOM provider
+      # - /home/${USER}/.secrets/{OPENVPN_CONFIG}.ovpn:/etc/openvpn/custom/{OPENVPN_CONFIG}.ovpn
+    env_file:
+      - stack.env
+    ports:
+      - '6080:6080' # soulseek
+      - '7880:7878' # radarr 7878 used by SOAP
+      - '8080:8080' # calibre
+      - '8081:8081' # calibre
+      - '8083:8083' # calibre-web
+      - '8099:80' # openbooks
+      - '8686:8686' # lidarr
+      - '8888:8888'
+      - '8989:8989' # sonarr
+      - '9091:9091'
+      - '9117:9117' # jackett
+      - '32400:32400' # plex
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
