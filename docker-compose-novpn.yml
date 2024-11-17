@@ -1,141 +1,30 @@
-version: '2.1'
-
 services:
- transmission:
-    image: linuxserver/transmission
-    container_name: transmission
-    devices:
-        - "/dev/net/tun"
-    cap_add:
-        - NET_ADMIN
-    ports:
-        - 9091:9091
-        - 51414:51413
-        - 51414:51413/udp
-        - 8888:8888
-        - 8989:8989       # sonarr
-        - 9117:9117       # jackett
-        - 8083:8083       # calibre-web
-        - 8087:8080       # calibre
-        - 8086:8081       # calibre
-        - 7880:7878       # radarr 7878 used by SOAP
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/appdata/transmission:/config
-    restart: unless-stopped
-
- jackett:
-    image: linuxserver/jackett
-    network_mode: "service:transmission"
-    container_name: jackett
-    depends_on:
-        - transmission
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/jackett:/config
-    restart: unless-stopped
-
- radarr:
-    image: linuxserver/radarr
-    network_mode: "service:transmission"
-    container_name: radarr
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/radarr:/config
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/media:/media
-    restart: unless-stopped
-
- sonarr:
-    image: linuxserver/sonarr
-    network_mode: "service:transmission"
-    container_name: sonarr
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/sonarr:/config
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/media:/media
-    restart: unless-stopped
-
- lidarr1:
-    image: linuxserver/lidarr
-    container_name: "lidarr-main"
-    ports:
-        - 8686:8686
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/lidarr1:/config
-        - /media/${USER}/Data/media/music:/media
-        - /media/${USER}/Data/downloads/soulseekqt:/downloads
-    restart: unless-stopped
-
- calibre:
+  calibre:
     image: linuxserver/calibre
-    network_mode: "service:transmission"
     container_name: calibre
-    env_file:
-        - stack.env
     volumes:
-        - /media/${USER}/Data/appdata/calibre:/config
-        - /media/${USER}/Data/media/books:/books
-        - /media/${USER}/Data/media/books_not_in_library:/books_add_me
-    restart: unless-stopped
-
- calibre-web:
-    image: linuxserver/calibre-web
+      - /media/${USER}/Data/appdata/calibre:/config
+      - /media/${USER}/Data/media/books:/books
+      - /media/${USER}/Data/media/books_not_in_library:/books_add_me
+    env_file:
+      - stack.env
     network_mode: "service:transmission"
+    restart: unless-stopped
+
+  calibre-web:
+    image: linuxserver/calibre-web
     container_name: calibre-web
+    volumes:
+      - /media/${USER}/Data/appdata/calibre-web:/config
+      - /media/${USER}/Data/media/books:/books
     env_file:
-        - stack.env
-    volumes:
-       - /media/${USER}/Data/appdata/calibre-web:/config
-       - /media/${USER}/Data/media/books:/books
+      - stack.env
+    network_mode: "service:transmission"
     restart: unless-stopped
 
- plex:
-    image: linuxserver/plex
-    container_name: plex
-    ports:
-        - 32400:32400
-    volumes:
-        - /media/${USER}/Data/appdata/plex:/config
-        - /media/${USER}/Data/media/tv:/tv
-        - /media/${USER}/Data/media/movies:/movies
-        - /media/${USER}/Data/media/muziek:/muziek
-    environment:
-    - PUID=1000
-    - PGID=1000
-    - TZ=Europe/Brussels
-    - UMASK_SET=022
-    - VERSION=latest
-    restart: unless-stopped
-
- soulseek:
-    image: realies/soulseek
-    container_name: soulseek
-    ports:
-        - "6080:6080"
-    volumes:
-       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
-       - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
-       # Shared folders
-       - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
-    env_file:
-       - stack.env
-    restart: unless-stopped
-
- filebrowser:
+  filebrowser:
     image: filebrowser/filebrowser
     container_name: filebrowser
-    ports:
-      - 8090:80
     volumes:
       - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
       - /media/${USER}/Data/appdata/filebrowser/settings.json:/config/settings.json
@@ -145,19 +34,127 @@ services:
       - /home/${USER}/Documents/Share:/srv/Documents
       - /media/${USER}/Backup/Share:/srv/Backup
     env_file:
-       - stack.env
+      - stack.env
+    ports:
+      - '8090:80'
     restart: unless-stopped
 
- openbooks:
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    depends_on:
+      - transmission
+    volumes:
+      - /media/${USER}/Data/appdata/jackett:/config
+    env_file:
+      - stack.env
+    network_mode: "service:transmission"
+    restart: unless-stopped
+
+  lidarr1:
+    image: linuxserver/lidarr
+    container_name: "lidarr-main"
+    volumes:
+      - /media/${USER}/Data/appdata/lidarr1:/config
+      - /media/${USER}/Data/media/music:/media
+      - /media/${USER}/Data/downloads/soulseekqt:/downloads
+    env_file:
+      - stack.env
+    ports:
+      - '8686:8686'
+    restart: unless-stopped
+
+  openbooks:
     image: evanbuss/openbooks:latest
     container_name: openbooks
-    ports:
-      - 8099:80
     volumes:
       - /media/${USER}/Data/media/books_not_in_library:/books
-    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
-    env_file:
-       - stack.env
     environment:
       - BASE_PATH=/openbooks/
+    env_file:
+      - stack.env
+    ports:
+      - '8099:80'
+    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
     restart: unless-stopped
+
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    volumes:
+      - /media/${USER}/Data/appdata/plex:/config
+      - /media/${USER}/Data/media/tv:/tv
+      - /media/${USER}/Data/media/movies:/movies
+      - /media/${USER}/Data/media/muziek:/muziek
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+      - UMASK_SET=022
+      - VERSION=latest
+    ports:
+      - '32400:32400'
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    volumes:
+      - /media/${USER}/Data/appdata/radarr:/config
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/media:/media
+    env_file:
+      - stack.env
+    network_mode: "service:transmission"
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    volumes:
+      - /media/${USER}/Data/appdata/sonarr:/config
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/media:/media
+    env_file:
+      - stack.env
+    network_mode: "service:transmission"
+    restart: unless-stopped
+
+  soulseek:
+    image: realies/soulseek
+    container_name: soulseek
+    volumes:
+      - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
+      - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
+      - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
+      # Shared folders
+      - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
+    env_file:
+      - stack.env
+    ports:
+      - '6080:6080'
+    restart: unless-stopped
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    volumes:
+      - /media/${USER}/Data/downloads:/downloads
+      - /media/${USER}/Data/appdata/transmission:/config
+    env_file:
+      - stack.env
+    ports:
+      - '7880:7878' # radarr 7878 used by SOAP
+      - '8083:8083' # calibre-web
+      - '8086:8081' # calibre
+      - '8087:8080' # calibre
+      - '8888:8888'
+      - '8989:8989' # sonarr
+      - '9091:9091'
+      - '9117:9117' # jackett
+      - '51414:51413'
+      - '51414:51413/udp'
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
