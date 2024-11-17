@@ -17,13 +17,10 @@ jobs:
       - name: Install dclint
         run: npm install --save-dev dclint
 
-      - name: Run dclint
-        id: run-dclint
-        run: npx dclint . | tee dclint-output.log || true
-
-      - name: Check for linting problems
+      - name: Run and Check for linting problems
         id: check-dclint-output
         run: |
+          npx dclint . | tee dclint-output.log || true
           if grep -E "✖ [0-9]+ problems" dclint-output.log; then
             echo "::error::Linting errors detected"
             exit 1
