@@ -8,12 +8,6 @@ services:
         - "/dev/net/tun"
     cap_add:
         - NET_ADMIN
-    env_file:
-        - stack.env
-    volumes:
-        # - <path to watch folder>:/watch
-        - /media/${USER}/Data/downloads:/downloads
-        - /media/${USER}/Data/appdata/transmission:/config
     ports:
         - 9091:9091
         - 51414:51413
@@ -25,6 +19,11 @@ services:
         - 8087:8080       # calibre
         - 8086:8081       # calibre
         - 7880:7878       # radarr 7878 used by SOAP
+    env_file:
+        - stack.env
+    volumes:
+        - /media/${USER}/Data/downloads:/downloads
+        - /media/${USER}/Data/appdata/transmission:/config
     restart: unless-stopped
 
  jackett:
@@ -66,40 +65,14 @@ services:
  lidarr1:
     image: linuxserver/lidarr
     container_name: "lidarr-main"
+    ports:
+        - 8686:8686
     env_file:
         - stack.env
     volumes:
         - /media/${USER}/Data/appdata/lidarr1:/config
         - /media/${USER}/Data/media/music:/media
         - /media/${USER}/Data/downloads/soulseekqt:/downloads
-    ports:
-        - 8686:8686       # lidarr
-    restart: unless-stopped
-
- lidarr2:
-    image: linuxserver/lidarr
-    container_name: "lidarr-gachi"
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/lidarr2:/config
-        - /media/${USER}/Data/media/gachi:/media
-        - /media/${USER}/Data/downloads/soulseekqt:/downloads
-    ports:
-        - 8687:8686       # lidarr
-    restart: unless-stopped
-
- lidarr3:
-    image: linuxserver/lidarr
-    container_name: "lidarr-nederlands"
-    env_file:
-        - stack.env
-    volumes:
-        - /media/${USER}/Data/appdata/lidarr3:/config
-        - /media/${USER}/Data/media/muziek:/media
-        - /media/${USER}/Data/downloads/soulseekqt:/downloads
-    ports:
-        - 8688:8686       # lidarr
     restart: unless-stopped
 
  calibre:
@@ -127,9 +100,9 @@ services:
 
  plex:
     image: linuxserver/plex
+    container_name: plex
     ports:
         - 32400:32400
-    container_name: plex
     volumes:
         - /media/${USER}/Data/appdata/plex:/config
         - /media/${USER}/Data/media/tv:/tv
@@ -141,24 +114,21 @@ services:
     - TZ=Europe/Brussels
     - UMASK_SET=022
     - VERSION=latest
-    # - PLEX_CLAIM=claim-CYu2Y-v8qAMfN1azT3iY # https://www.plex.tv/claim/
     restart: unless-stopped
 
  soulseek:
     image: realies/soulseek
     container_name: soulseek
+    ports:
+        - "6080:6080"
     volumes:
        - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
        - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
        - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
        # Shared folders
        - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
-    ports:
-        - "6080:6080"
-    environment:
-        - USER=user
-        - TZ=Europe/Brussels
-        - DNS=8.8.8.8,8.8.4.4
+    env_file:
+       - stack.env
     restart: unless-stopped
 
  filebrowser:
@@ -167,11 +137,10 @@ services:
     ports:
       - 8090:80
     volumes:
-      # See readme.md
       - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
       - /media/${USER}/Data/appdata/filebrowser/settings.json:/config/settings.json
       # Shared folders root is /srv
-      # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Filebrowser/* 
+      # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Filebrowser/*
       - /home/${USER}/Applications/Filebrowser:/srv
       - /home/${USER}/Documents/Share:/srv/Documents
       - /media/${USER}/Backup/Share:/srv/Backup
@@ -186,7 +155,9 @@ services:
       - 8099:80
     volumes:
       - /media/${USER}/Data/media/books_not_in_library:/books
-    command: --name mycoolname --persist
+    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
+    env_file:
+       - stack.env
     environment:
       - BASE_PATH=/openbooks/
     restart: unless-stopped
