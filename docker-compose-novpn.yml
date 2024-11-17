@@ -53,11 +53,11 @@ services:
     network_mode: "service:transmission"
     restart: unless-stopped
 
-  lidarr1:
+  lidarr:
     image: linuxserver/lidarr:tag
     container_name: "lidarr-main"
     volumes:
-      - /media/${USER}/Data/appdata/lidarr1:/config
+      - /media/${USER}/Data/appdata/lidarr:/config
       - /media/${USER}/Data/media/music:/media
       - /media/${USER}/Data/downloads/soulseekqt:/downloads
     env_file:
@@ -136,6 +136,7 @@ services:
     ports:
       - '6080:6080'
     restart: unless-stopped
+
   transmission:
     image: linuxserver/transmission:tag
     container_name: transmission
