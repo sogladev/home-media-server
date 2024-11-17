@@ -1,0 +1,39 @@
+name: validate-env
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-docker-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dclint
+        run: npm install --save-dev dclint
+
+      - name: Run dclint
+        id: run-dclint
+        run: npx dclint . > dclint-output.log || true
+
+      - name: Check for linting problems
+        id: check-dclint-output
+        run: |
+          if grep -E "✖ [0-9]+ problems" dclint-output.log; then
+            echo "::error::Linting errors detected"
+            exit 1
+          else
+            echo "No linting problems found"
+          fi
+
+      - name: Upload dclint output
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: dclint-output
+          path: dclint-output.log
+          retention-days: 1
