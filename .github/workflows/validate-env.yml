@@ -1,0 +1,18 @@
+name: validate-env
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dotenv-linter:
+    name: runner / dotenv-linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: dotenv-linter
+        uses: dotenv-linter/action-dotenv-linter@v2
+        with:
+          github_token: ${{ secrets.github_token }}
