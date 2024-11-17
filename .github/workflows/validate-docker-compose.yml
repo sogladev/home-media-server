@@ -30,11 +30,3 @@ jobs:
           else
             echo "No linting problems found"
           fi
-
-      - name: Upload dclint output
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: dclint-output
-          path: dclint-output.log
-          retention-days: 1
