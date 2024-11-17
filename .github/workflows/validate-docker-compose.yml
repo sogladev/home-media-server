@@ -1,0 +1,29 @@
+name: validate-docker-compose
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-docker-compose:
+    name: runner / docker-compose-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dclint
+        run: npm install --save-dev dclint
+
+      - name: Run and Check for linting problems
+        id: check-dclint-output
+        run: |
+          npx dclint . | tee dclint-output.log || true
+          if grep -E "✖ [0-9]+ problems" dclint-output.log; then
+            echo "::error::Linting errors detected"
+            exit 1
+          else
+            echo "No linting problems found"
+          fi
