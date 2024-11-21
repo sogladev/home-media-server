@@ -1,1 +1,5 @@
 organizr/secret-stack.env
+traefik/secret-config.yml
+traefik/secret-home-media-server-traefik.env
+traefik/secret-traefik.yml
+traefik/secret-docker-compose.yml
