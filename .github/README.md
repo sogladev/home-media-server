@@ -192,7 +192,6 @@ http://localhost:8083/calibreweb/kobo/{token}/v1/library/sync
 ```
 Go the api_endpoint in browser. If this is empty, consider pressing "Force full kobo sync" in the user options in calibre-web
 
-
 ## Filebrowser
 
 `- /home/${USER}/Applications/Filebrowser:/srv`
