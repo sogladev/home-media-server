@@ -10,7 +10,9 @@ services:
       - /media/${USER}/Data/media/books_not_in_library:/books_add_me
     env_file:
       - stack.env
-    network_mode: "service:transmission-openvpn"
+    ports:
+      - '8092:8080' # calibre http
+      - '8093:8181' # calibre https
     restart: unless-stopped
 
   calibre-web:
@@ -141,8 +143,6 @@ services:
     ports:
       - '6080:6080' # soulseek
       - '7880:7878' # radarr 7878 used by SOAP
-      - '8080:8080' # calibre
-      - '8081:8081' # calibre
       - '8083:8083' # calibre-web
       - '8099:80' # openbooks
       - '8686:8686' # lidarr
