@@ -103,8 +103,8 @@ Port                   | Application
 9117       | jackett
 8686       | lidarr
 8083       | calibre-web
-8080       | calibre
-8081       | calibre
+8092       | calibre http
+8093       | calibre https
 7880       | radarr
 32400      | plex
 6080       | soulseek
@@ -160,6 +160,7 @@ default login calibre-web: `admin admin123`
 Use calibre to add books, calibre-web to setup a store endpoint to enable Kobo Sync
 
 ### setup eReader with Kobo sync and calibre-web
+documentation: https://github.com/janeczku/calibre-web/wiki/Kobo-Integration
 Note that the following is written and tested for a `Kobo Aura H2O` model, steps may be different or this might not work at all for any other models.
 
 Under abc's Profile (default profile)
@@ -183,6 +184,14 @@ You need to change the ip to your local ip address, for example:
 ```
 api_endpoint=http://192.168.0.205:8083/kobo/0cf8e8ccb456ad872f781f88b2cfdf83
 ```
+
+#### Troubleshooting
+books aren't updating? Test with
+```
+http://localhost:8083/calibreweb/kobo/{token}/v1/library/sync
+```
+Go the api_endpoint in browser. If this is empty, consider pressing "Force full kobo sync" in the user options in calibre-web
+
 
 ## Filebrowser
 
