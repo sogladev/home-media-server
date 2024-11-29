@@ -1,5 +1,5 @@
 # Home Media Server
-`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, and eBooks + Kobo eReader sync. Featuring apps like Plex, Transmission, Jackett, Radarr, Sonarr, Lidarr, Calibre, and Filebrowser, this server empowers you to enjoy and organize your media collection with ease.
+`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, and eBooks + Kobo eReader sync. Featuring apps like Plex, Transmission, Prowlarr, Radarr, Sonarr, Lidarr, Calibre, and Filebrowser, this server empowers you to enjoy and organize your media collection with ease.
 
 You have two configuration options:
 1. Without VPN (`*-novpn.yml`): For straightforward local use.
@@ -44,11 +44,11 @@ organizr                 | all your services from a single tab
       ├── calibre
       ├── calibre-web
       ├── filebrowser
-      ├── jackett
       ├── lidarr
       ├── openbooks
       ├── organizr
       ├── plex
+      ├── prowlarr
       ├── radarr
       ├── sonarr
       ├── soulseek
@@ -99,20 +99,20 @@ docker compose up
 After launching for the first time, some configuration is required. Always refer to the official docs. Some pointers are listed per application
 
 Config through web by going to `http://0.0.0.0:{port}/`
-Port                   | Application
--------------------------|-----------------
-8989       | sonarr
-9117       | jackett
-8686       | lidarr
-8083       | calibre-web
-8092       | calibre http
-8093       | calibre https
-7880       | radarr
-32400      | plex
-6080       | soulseek
-8090       | filebrowser
-8099       | openbooks
-9983       | organizr
+Port                   | Application | Domain
+
+8989       | sonarr          | sonarr.domain.duckdns.org
+7880       | radarr          | radarr.domain.duckdns.org
+9696       | prowlarr        | prowlarr.domain.duckdns.org
+8686       | lidarr          | lidarr.domain.duckdns.org
+8083       | calibre-web     | calibre-web.domain.duckdns.org
+8092       | calibre http    |
+8093       | calibre https   | calibre.domain.duckdns.org
+32400      | plex            | plex.domain.duckdns.org
+6080       | soulseek        | soulseek.domain.duckdns.org
+8090       | filebrowser     | filebrowser.domain.duckdns.org
+8099       | openbooks       | openbooks.domain.duckdns.org
+9983       | organizr        | organizr.domain.duckdns.org
 
 ## Transmission
 Use environment variables to configure
@@ -130,27 +130,21 @@ Bandwidth
     upload-slots-per-torrent: Number (default = 14)
 ```
 
-
 ### VPN Configuration
 If using ProtonVPN, you can skip the OpenVPN configuration files and you only need to obtain your credentials. These are obtained through the web interface under sidebar option `Account` -> `OpenVPN / IKEv2 username and password`. These will be your
 `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` respectively. Direct link to ProtonVPN docs http://haugene.github.io/docker-transmission-openvpn/provider-specific/#protonvpn
 
 For other providers, the docs can be found at http://haugene.github.io/docker-transmission-openvpn/
 
-## Jackett
-a guide to setup jackett
-https://docs.ultra.cc/books/jackett/page/jackett
+## Prowlarr
+https://docs.prowler.com/projects/prowler-open-source/en/latest/
 
 ## Sonarr, radarr, lidarr
-These services require you to setup an indexer (jackett) and a download client (transmission)
+These services require you to setup an indexer (prowlarr) and a download client (transmission)
 
-1. Add indexer jackett
-```
-API key jackett
-torznab stream
-    0.0.0.0 -> localhost
-    http://localhost:9117/torznab/all/
-```
+1. Add indexers to apps
+copy the API key from the app then add the app in the Prowlarr web interface
+
 2. Add download client
 ```
 Transmission client
@@ -162,7 +156,7 @@ default login calibre-web: `admin admin123`
 
 Use calibre to add books, calibre-web to setup a store endpoint to enable Kobo Sync
 
-### setup eReader with Kobo sync and calibre-web
+### Setup eReader with Kobo sync and calibre-web
 documentation: https://github.com/janeczku/calibre-web/wiki/Kobo-Integration
 Note that the following is written and tested for a `Kobo Aura H2O` model, steps may be different or this might not work at all for any other models.
 
