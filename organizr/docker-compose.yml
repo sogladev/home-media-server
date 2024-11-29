@@ -1,0 +1,13 @@
+name: "organizr"
+
+services:
+  organizr:
+    image: organizr/organizr:latest
+    container_name: organizr
+    env_file:
+      - stack.env
+    volumes:
+      - /media/${USER}/Data/appdata/organizr:/config
+    ports:
+      - '0.0.0.0:9983:80'
+    restart: unless-stopped
