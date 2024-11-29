@@ -11,8 +11,8 @@ services:
     env_file:
       - stack.env
     ports:
-      - '8092:8080' # calibre http
-      - '8093:8181' # calibre https
+      - '0.0.0.0:8092:8080' # calibre http
+      - '0.0.0.0:8093:8181' # calibre https
     restart: unless-stopped
 
   calibre-web:
@@ -40,7 +40,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - '8090:80'
+      - '0.0.0.0:8090:80'
     restart: unless-stopped
 
   jackett:
@@ -141,16 +141,16 @@ services:
     env_file:
       - stack.env
     ports:
-      - '6080:6080' # soulseek
-      - '7880:7878' # radarr 7878 used by SOAP
-      - '8083:8083' # calibre-web
-      - '8099:80' # openbooks
-      - '8686:8686' # lidarr
-      - '8888:8888'
-      - '8989:8989' # sonarr
-      - '9091:9091'
-      - '9117:9117' # jackett
-      - '32400:32400' # plex
+      - '0.0.0.0:6080:6080'   # soulseek
+      - '0.0.0.0:7880:7878'   # radarr 7878 used by SOAP
+      - '0.0.0.0:8083:8083'   # calibre-web
+      - '0.0.0.0:8099:80'     # openbooks
+      - '0.0.0.0:8686:8686'   # lidarr
+      - '0.0.0.0:8888:8888'
+      - '0.0.0.0:8989:8989'   # sonarr
+      - '0.0.0.0:9091:9091'
+      - '127.0.0.1:9117:9117' # jackett
+      - '0.0.0.0:32400:32400' # plex
     restart: always
     logging:
       driver: json-file
