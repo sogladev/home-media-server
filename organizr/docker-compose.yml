@@ -2,12 +2,12 @@ name: "organizr"
 
 services:
   organizr:
-    image: organizr/organizr:latest
+    image: organizr/organizr:linux-amd64
     container_name: organizr
-    env_file:
-      - stack.env
     volumes:
       - /media/${USER}/Data/appdata/organizr:/config
+    env_file:
+      - stack.env
     ports:
       - '0.0.0.0:9983:80'
     restart: unless-stopped
