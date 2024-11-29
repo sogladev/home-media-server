@@ -38,7 +38,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - '8090:80'
+      - '0.0.0.0:8090:80'
     restart: unless-stopped
 
   jackett:
@@ -63,7 +63,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - '8686:8686'
+      - '0.0.0.0:8686:8686'
     restart: unless-stopped
 
   openbooks:
@@ -76,7 +76,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - '8099:80'
+      - '0.0.0.0:8099:80'
     command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
     restart: unless-stopped
 
@@ -95,7 +95,7 @@ services:
       - UMASK_SET=022
       - VERSION=latest
     ports:
-      - '32400:32400'
+      - '0.0.0.0:32400:32400'
     restart: unless-stopped
 
   radarr:
@@ -134,7 +134,7 @@ services:
     env_file:
       - stack.env
     ports:
-      - '6080:6080'
+      - '0.0.0.0:6080:6080'
     restart: unless-stopped
 
   transmission:
@@ -146,14 +146,14 @@ services:
     env_file:
       - stack.env
     ports:
-      - '7880:7878' # radarr 7878 used by SOAP
-      - '8083:8083' # calibre-web
-      - '8086:8081' # calibre
-      - '8087:8080' # calibre
-      - '8888:8888'
-      - '8989:8989' # sonarr
-      - '9091:9091'
-      - '9117:9117' # jackett
+      - '0.0.0.0:7880:7878' # radarr 7878 used by SOAP
+      - '0.0.0.0:8083:8083' # calibre-web
+      - '0.0.0.0:8086:8081' # calibre
+      - '0.0.0.0:8087:8080' # calibre
+      - '0.0.0.0:8888:8888'
+      - '0.0.0.0:8989:8989' # sonarr
+      - '0.0.0.0:9091:9091'
+      - '127.0.0.1:9117:9117' # jackett
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
