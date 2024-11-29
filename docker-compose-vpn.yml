@@ -2,7 +2,7 @@ name: "home-media-server-vpn"
 
 services:
   calibre:
-    image: linuxserver/calibre:tag
+    image: linuxserver/calibre:7.22.0
     container_name: calibre
     volumes:
       - /media/${USER}/Data/appdata/calibre:/config
@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   calibre-web:
-    image: linuxserver/calibre-web:tag
+    image: linuxserver/calibre-web:0.6.24
     container_name: calibre-web
     volumes:
       - /media/${USER}/Data/appdata/calibre-web:/config
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
 
   filebrowser:
-    image: filebrowser/filebrowser:tag
+    image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     volumes:
       - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
 
   jackett:
-    image: linuxserver/jackett:tag
+    image: linuxserver/jackett:0.22.1018
     container_name: jackett
     depends_on:
       - transmission-openvpn
@@ -56,7 +56,7 @@ services:
     restart: unless-stopped
 
   lidarr:
-    image: linuxserver/lidarr:tag
+    image: linuxserver/lidarr:2.7.1
     container_name: lidarr
     volumes:
       - /media/${USER}/Data/appdata/lidarr:/config
@@ -68,7 +68,7 @@ services:
     restart: unless-stopped
 
   openbooks:
-    image: evanbuss/openbooks:tag
+    image: evanbuss/openbooks:4.5.0
     container_name: openbooks
     volumes:
       - /media/${USER}/Data/media/books_not_in_library:/books
@@ -81,7 +81,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: linuxserver/plex:tag
+    image: linuxserver/plex:1.41.2
     container_name: plex
     volumes:
       - /media/${USER}/Data/appdata/plex:/config
@@ -90,11 +90,22 @@ services:
       - /media/${USER}/Data/media/music:/music
     env_file:
       - stack.env
+    ports:
+      - '0.0.0.0:32400:32400' # plex
+    restart: unless-stopped
+
+  prowlarr:
+    image: linuxserver/prowlarr:1.27.0
+    container_name: prowlarr
+    volumes:
+      - /media/${USER}/Data/appdata/prowlarr:/config
+    env_file:
+      - stack.env
     network_mode: "service:transmission-openvpn"
     restart: unless-stopped
 
   radarr:
-    image: linuxserver/radarr:tag
+    image: linuxserver/radarr:5.15.1
     container_name: radarr
     volumes:
       - /media/${USER}/Data/appdata/radarr:/config
@@ -106,7 +117,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr:tag
+    image: linuxserver/sonarr:4.0.11
     container_name: sonarr
     volumes:
       - /media/${USER}/Data/appdata/sonarr:/config
@@ -131,7 +142,7 @@ services:
     restart: unless-stopped
 
   transmission-openvpn:
-    image: haugene/transmission-openvpn:tag
+    image: haugene/transmission-openvpn:5.3.1
     container_name: transmission-openvpn
     volumes:
       - /media/${USER}/Data/downloads:/downloads
@@ -143,14 +154,18 @@ services:
     ports:
       - '0.0.0.0:6080:6080' # soulseek
       - '0.0.0.0:7880:7878' # radarr 7878 used by SOAP
+      # - '0.0.0.0:8092:8093'   # calibre
+      # - '0.0.0.0:8093:8093'   # calibre
       - '0.0.0.0:8083:8083' # calibre-web
       - '0.0.0.0:8099:80' # openbooks
       - '0.0.0.0:8686:8686' # lidarr
       - '0.0.0.0:8888:8888'
       - '0.0.0.0:8989:8989' # sonarr
       - '0.0.0.0:9091:9091'
-      - '127.0.0.1:9117:9117' # jackett
-      - '0.0.0.0:32400:32400' # plex
+      - '0.0.0.0:9117:9117' # jackett
+      # - '0.0.0.0:32400:32400' # plex
+      - '0.0.0.0:9696:9696' # prowlarr
+      - '0.0.0.0:51415:51413'
     restart: always
     logging:
       driver: json-file
