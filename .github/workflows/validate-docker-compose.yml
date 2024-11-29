@@ -20,7 +20,7 @@ jobs:
       - name: Run and Check for linting problems
         id: check-dclint-output
         run: |
-          npx dclint . | tee dclint-output.log || true
+          npx dclint . -r | tee dclint-output.log || true
           if grep -E "✖ [0-9]+ problems" dclint-output.log; then
             echo "::error::Linting errors detected"
             exit 1

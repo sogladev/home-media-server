@@ -32,6 +32,7 @@ sonarr                   | tv
 plex                     | movies music tv
 soulseek                 | music downloads
 filebrowser              | local filesharing
+organizr                 | all your services from a single tab
 
 ```
 (*) Alternative:  Library Genesis (Libgen)
@@ -46,6 +47,7 @@ filebrowser              | local filesharing
       ├── jackett
       ├── lidarr
       ├── openbooks
+      ├── organizr
       ├── plex
       ├── radarr
       ├── sonarr
@@ -110,6 +112,7 @@ Port                   | Application
 6080       | soulseek
 8090       | filebrowser
 8099       | openbooks
+9983       | organizr
 
 ## Transmission
 Use environment variables to configure
@@ -233,6 +236,10 @@ Books are downloaded through the browser. They need to be manually added to cali
 - The downloaded file can be removed
 
 The library will automaticly synchronize with `calibre web` and can then be synced to your ereader. Periodic syncing should be enabled by default on your ereader.
+
+## Organizr
+documentation: https://docs.organizr.app/
+https://github.com/causefx/Organizr
 
 # Credits
 inspirted by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)
