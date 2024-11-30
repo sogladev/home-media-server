@@ -5,6 +5,10 @@ You have two configuration options:
 1. Without VPN (`*-novpn.yml`): For straightforward local use.
 1. With VPN (`*-vpn.yml`): Enhances privacy and secures your P2P traffic via OpenVPN
 
+Optional Stacks:
+* Traefik: Simplifies service management by providing a reverse proxy with easy-to-configure, accessible URLs for all services.
+* Organizr: Acts as a unified front-end dashboard to access and organize all your services in one convenient place.
+
 ## VPN or no VPN
 Choosing whether to use a VPN is entirely up to you. Here’s the key difference:
 - **Without VPN**: Your P2P and Soulseek traffic will route directly through your internet connection, which is simple to set up but offers no additional privacy.
@@ -19,10 +23,11 @@ Choosing the VPN setup requires a few additional steps. Here’s what you need:
 If you already have a VPN that supports P2P, you can skip this paragraph. If not, consider a reliable provider. I recommend **ProtonVPN** (tested and pre-configured with this setup) or alternatives like **Surfshark** and **Windscribe**. ProtonVPN offers strong privacy features and P2P support at a reasonable cost—[you may sign up here using my referral link](https://pr.tn/ref/RCTRATDNZXGG)
 
 
-## Programs and their use
+## Services and their use
 Images                   | Use
 -------------------------|-----------------
 transmission (+ openvpn) | downloads
+prowlarr                 | indexer manager
 calibre                  | books library manager
 calibre-web              | books library to enable Kobo Sync
 openbooks (*)            | books finder
@@ -99,8 +104,9 @@ docker compose up
 After launching for the first time, some configuration is required. Always refer to the official docs. Some pointers are listed per application
 
 Config through web by going to `http://0.0.0.0:{port}/`
-Port                   | Application | Domain
 
+Port       | Application     | Domain
+ ----------|-----------------|--------------------------------
 8989       | sonarr          | sonarr.domain.duckdns.org
 7880       | radarr          | radarr.domain.duckdns.org
 9696       | prowlarr        | prowlarr.domain.duckdns.org
@@ -236,4 +242,7 @@ documentation: https://docs.organizr.app/
 https://github.com/causefx/Organizr
 
 # Credits
-inspirted by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)
+Inspired by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)
+
+The traefik reverse proxy setup is adapted from "Traefik 3 Docker Certificates Guide" by [TechnoTim](https://github.com/timothystewart6), originally published at https://technotim.live/posts/traefik-3-docker-certificates/, and licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes were made to customize the configuration for use with DuckDNS instead of Cloudflare and routing services.
+
