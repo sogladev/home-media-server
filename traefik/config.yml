@@ -1,0 +1,148 @@
+http:
+  routers:
+    calibre:
+      entryPoints:
+        - "https"
+      middlewares:
+        - default-headers
+        - http-redirectscheme
+      tls: {}
+      rule: "Host(`calibre.mycooldomain.duckdns.org`)"
+      service: calibre
+    calibre-web:
+      entryPoints:
+        - "http"
+      rule: "Host(`calibre-web.mycooldomain.duckdns.org`)"
+      service: calibre-web
+    filebrowser:
+      entryPoints:
+        - "http"
+      rule: "Host(`filebrowser.mycooldomain.duckdns.org`)"
+      service: filebrowser
+    lidarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`lidarr.mycooldomain.duckdns.org`)"
+      service: lidarr
+    openbooks:
+      entryPoints:
+        - "http"
+      rule: "Host(`openbooks.mycooldomain.duckdns.org`)"
+      service: openbooks
+    openwebui:
+      entryPoints:
+        - "http"
+      rule: "Host(`openwebui.mycooldomain.duckdns.org`)"
+      service: openwebui
+    organizr:
+      entryPoints:
+        - "http"
+      rule: "Host(`organizr.mycooldomain.duckdns.org`)"
+      service: organizr
+    plex:
+      entryPoints:
+        - "http"
+      rule: "Host(`plex.mycooldomain.duckdns.org`)"
+      service: plex
+    prowlarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`prowlarr.mycooldomain.duckdns.org`)"
+      service: prowlarr
+    sonarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`sonarr.mycooldomain.duckdns.org`)"
+      service: sonarr
+    radarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`radarr.mycooldomain.duckdns.org`)"
+      service: radarr
+    transmission:
+      entryPoints:
+        - "http"
+      rule: "Host(`transmission.mycooldomain.duckdns.org`)"
+      service: transmission
+  services:
+    calibre:
+      loadBalancer:
+        servers:
+          - url: "https://calibre.mycooldomain.duckdns.org:8093"
+        passHostHeader: true
+    calibre-web:
+      loadBalancer:
+        servers:
+          - url: "http://calibre-web.mycooldomain.duckdns.org:8083"
+    filebrowser:
+      loadBalancer:
+        servers:
+          - url: "http://filebrowser.mycooldomain.duckdns.org:8090"
+    lidarr:
+      loadBalancer:
+        servers:
+          - url: "http://lidarr.mycooldomain.duckdns.org:8686"
+    openbooks:
+      loadBalancer:
+        servers:
+          - url: "http://openbooks.mycooldomain.duckdns.org:8099"
+    openwebui:
+      loadBalancer:
+        servers:
+          - url: "http://openwebui.mycooldomain.duckdns.org:8084"
+    organizr:
+      loadBalancer:
+        servers:
+          - url: "http://organizr.mycooldomain.duckdns.org:9983"
+    plex:
+      loadBalancer:
+        servers:
+          - url: "http://plex.mycooldomain.duckdns.org:32400"
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: "http://prowlarr.mycooldomain.duckdns.org:9696"
+    radarr:
+      loadBalancer:
+        servers:
+          - url: "http://radarr.mycooldomain.duckdns.org:7880"
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: "http://sonarr.mycooldomain.duckdns.org:8989"
+    soulseek:
+      loadBalancer:
+        servers:
+          - url: "http://soulseek.mycooldomain.duckdns.org:6080"
+    transmission:
+      loadBalancer:
+        servers:
+          - url: "http://transmission.mycooldomain.duckdns.org:9091"
+  middlewares:
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000 # "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+    http-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+        # - "10.0.0.0/8"
+        - "192.168.0.0/16"
+        # - "172.16.0.0/12"
+    secured:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers
