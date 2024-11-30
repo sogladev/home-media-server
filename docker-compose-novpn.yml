@@ -2,7 +2,7 @@ name: "home-media-server-novpn"
 
 services:
   calibre:
-    image: linuxserver/calibre:tag
+    image: linuxserver/calibre:7.22.0
     container_name: calibre
     volumes:
       - /media/${USER}/Data/appdata/calibre:/config
@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   calibre-web:
-    image: linuxserver/calibre-web:tag
+    image: linuxserver/calibre-web:0.6.24
     container_name: calibre-web
     volumes:
       - /media/${USER}/Data/appdata/calibre-web:/config
@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
 
   filebrowser:
-    image: filebrowser/filebrowser:tag
+    image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     volumes:
       - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
@@ -41,20 +41,8 @@ services:
       - '0.0.0.0:8090:80'
     restart: unless-stopped
 
-  jackett:
-    image: linuxserver/jackett:tag
-    container_name: jackett
-    depends_on:
-      - transmission
-    volumes:
-      - /media/${USER}/Data/appdata/jackett:/config
-    env_file:
-      - stack.env
-    network_mode: "service:transmission"
-    restart: unless-stopped
-
   lidarr:
-    image: linuxserver/lidarr:tag
+    image: linuxserver/lidarr:2.7.1
     container_name: "lidarr-main"
     volumes:
       - /media/${USER}/Data/appdata/lidarr:/config
@@ -67,7 +55,7 @@ services:
     restart: unless-stopped
 
   openbooks:
-    image: evanbuss/openbooks:tag
+    image: evanbuss/openbooks:4.5.0
     container_name: openbooks
     volumes:
       - /media/${USER}/Data/media/books_not_in_library:/books
@@ -81,7 +69,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: linuxserver/plex:tag
+    image: linuxserver/plex:1.41.2
     container_name: plex
     volumes:
       - /media/${USER}/Data/appdata/plex:/config
@@ -98,8 +86,18 @@ services:
       - '0.0.0.0:32400:32400'
     restart: unless-stopped
 
+  prowlarr:
+    image: linuxserver/prowlarr:1.27.0
+    container_name: prowlarr
+    volumes:
+      - /media/${USER}/Data/appdata/prowlarr:/config
+    env_file:
+      - stack.env
+    network_mode: "service:transmission"
+    restart: unless-stopped
+
   radarr:
-    image: linuxserver/radarr:tag
+    image: linuxserver/radarr:5.15.1
     container_name: radarr
     volumes:
       - /media/${USER}/Data/appdata/radarr:/config
@@ -111,7 +109,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr:tag
+    image: linuxserver/sonarr:4.0.11
     container_name: sonarr
     volumes:
       - /media/${USER}/Data/appdata/sonarr:/config
@@ -138,7 +136,7 @@ services:
     restart: unless-stopped
 
   transmission:
-    image: linuxserver/transmission:tag
+    image: linuxserver/transmission:4.0.6
     container_name: transmission
     volumes:
       - /media/${USER}/Data/downloads:/downloads
@@ -153,7 +151,7 @@ services:
       - '0.0.0.0:8888:8888'
       - '0.0.0.0:8989:8989' # sonarr
       - '0.0.0.0:9091:9091'
-      - '127.0.0.1:9117:9117' # jackett
+      - '0.0.0.0:9696:9696' # prowlarr
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
