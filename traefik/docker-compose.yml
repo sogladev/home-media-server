@@ -16,8 +16,8 @@ services:
     env_file:
       - stack.env
     ports:
-      - '80:80'
-      - '443:443'
+      - '0.0.0.0:80:80'
+      - '0.0.0.0:443:443'
     networks:
       - proxy
     restart: unless-stopped
