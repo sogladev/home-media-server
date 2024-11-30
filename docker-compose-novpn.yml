@@ -150,8 +150,8 @@ services:
       - '0.0.0.0:8087:8080' # calibre
       - '0.0.0.0:8888:8888'
       - '0.0.0.0:8989:8989' # sonarr
-      - '0.0.0.0:9696:9696' # prowlarr
       - '0.0.0.0:9091:9091'
+      - '0.0.0.0:9696:9696' # prowlarr
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
