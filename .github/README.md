@@ -20,7 +20,7 @@ Choosing the VPN setup requires a few additional steps. Here’s what you need:
 2. **OpenVPN Configuration Files**: Obtain these from your VPN provider.
 3. **Credentials**: Login details. These depend on your VPN provider
 
-If you already have a VPN that supports P2P, you can skip this paragraph. If not, consider a reliable provider. I recommend **ProtonVPN** (tested and pre-configured with this setup) or alternatives like **Surfshark** and **Windscribe**. ProtonVPN offers strong privacy features and P2P support at a reasonable cost—[you may sign up here using my referral link](https://pr.tn/ref/RCTRATDNZXGG)
+If you already have a VPN that supports P2P, you can skip this paragraph. If not, consider a reliable provider. I recommend **ProtonVPN** (tested and pre-configured with this setup) or alternatives like **Surfshark** and **Windscribe**.
 
 
 ## Services and their use
