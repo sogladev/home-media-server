@@ -127,7 +127,6 @@ services:
       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
       - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
       - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
-      # Shared folders
       - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
     env_file:
       - stack.env
