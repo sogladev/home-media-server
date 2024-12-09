@@ -3,3 +3,5 @@ traefik/secret-config.yml
 traefik/secret-home-media-server-traefik.env
 traefik/secret-traefik.yml
 traefik/secret-docker-compose.yml
+secret-docker-compose-novpn.yml
+secret-home-media-server-novpn.env
