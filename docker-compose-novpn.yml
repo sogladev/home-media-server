@@ -121,7 +121,7 @@ services:
     restart: unless-stopped
 
   soulseek:
-    image: realies/soulseek:tag
+    image: realies/soulseek:latest
     container_name: soulseek
     volumes:
       - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
