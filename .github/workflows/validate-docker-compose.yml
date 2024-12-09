@@ -17,10 +17,33 @@ jobs:
       - name: Install dclint
         run: npm install --save-dev dclint
 
+      # Create config file to allow "latest" tag
+      - name: Create config file
+        run: |
+          cat <<EOL > config.json
+          {
+            "rules": {
+              "service-image-require-explicit-tag": [
+                1,
+                {
+                  "prohibitedTags": [
+                    "edge",
+                    "test",
+                    "nightly",
+                    "dev",
+                    "beta",
+                    "canary",
+                  ]
+                }
+              ]
+            }
+          }
+          EOL
+
       - name: Run and Check for linting problems
         id: check-dclint-output
         run: |
-          npx dclint . -r | tee dclint-output.log || true
+          npx dclint . -r -c config.json | tee dclint-output.log || true
           if grep -E "✖ [0-9]+ problems" dclint-output.log; then
             echo "::error::Linting errors detected"
             exit 1
