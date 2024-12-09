@@ -24,20 +24,20 @@ If you already have a VPN that supports P2P, you can skip this paragraph. If not
 
 
 ## Services and their use
-Images                   | Use
--------------------------|-----------------
-transmission (+ openvpn) | downloads
-prowlarr                 | indexer manager
-calibre                  | books library manager
-calibre-web              | books library to enable Kobo Sync
-openbooks (*)            | books finder
-radarr                   | movies
-lidarr                   | music
-sonarr                   | tv
-plex                     | movies music tv
-soulseek                 | music downloads
-filebrowser              | local filesharing
-organizr                 | all your services from a single tab
+| Images                   | Use                                 |
+| ------------------------ | ----------------------------------- |
+| transmission (+ openvpn) | downloads                           |
+| prowlarr                 | indexer manager                     |
+| calibre                  | books library manager               |
+| calibre-web              | books library to enable Kobo Sync   |
+| openbooks (*)            | books finder                        |
+| radarr                   | movies                              |
+| lidarr                   | music                               |
+| sonarr                   | tv                                  |
+| plex                     | movies music tv                     |
+| soulseek                 | music downloads                     |
+| filebrowser              | local filesharing                   |
+| organizr                 | all your services from a single tab |
 
 ```
 (*) Alternative:  Library Genesis (Libgen)
@@ -105,20 +105,20 @@ After launching for the first time, some configuration is required. Always refer
 
 Config through web by going to `http://0.0.0.0:{port}/`
 
-Port       | Application     | Domain
- ----------|-----------------|--------------------------------
-8989       | sonarr          | sonarr.domain.duckdns.org
-7880       | radarr          | radarr.domain.duckdns.org
-9696       | prowlarr        | prowlarr.domain.duckdns.org
-8686       | lidarr          | lidarr.domain.duckdns.org
-8083       | calibre-web     | calibre-web.domain.duckdns.org
-8092       | calibre http    |
-8093       | calibre https   | calibre.domain.duckdns.org
-32400      | plex            | plex.domain.duckdns.org
-6080       | soulseek        | soulseek.domain.duckdns.org
-8090       | filebrowser     | filebrowser.domain.duckdns.org
-8099       | openbooks       | openbooks.domain.duckdns.org
-9983       | organizr        | organizr.domain.duckdns.org
+| Port  | Application   | Domain                         | Domain Short |
+| ----- | ------------- | ------------------------------ | ------------ |
+| 8989  | sonarr        | sonarr.domain.duckdns.org      | s            |
+| 7880  | radarr        | radarr.domain.duckdns.org      | r            |
+| 9696  | prowlarr      | prowlarr.domain.duckdns.org    | pr           |
+| 8686  | lidarr        | lidarr.domain.duckdns.org      | l            |
+| 8083  | calibre-web   | calibre-web.domain.duckdns.org | cw           |
+| 8092  | calibre http  |                                |              |
+| 8093  | calibre https | calibre.domain.duckdns.org     | c            |
+| 32400 | plex          | plex.domain.duckdns.org        | p            |
+| 6080  | soulseek      | soulseek.domain.duckdns.org    | so           |
+| 8090  | filebrowser   | filebrowser.domain.duckdns.org | f            |
+| 8099  | openbooks     | openbooks.domain.duckdns.org   | op           |
+| 9983  | organizr      | organizr.domain.duckdns.org    | o            |
 
 ## Transmission
 Use environment variables to configure
