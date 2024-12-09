@@ -20,6 +20,8 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
+    # watch: true
+    network: "proxy" # required for novpn?
   file:
     filename: /config.yml
 

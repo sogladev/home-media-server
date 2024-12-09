@@ -76,12 +76,8 @@ services:
       - /media/${USER}/Data/media/tv:/tv
       - /media/${USER}/Data/media/movies:/movies
       - /media/${USER}/Data/media/muziek:/muziek
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
-      - UMASK_SET=022
-      - VERSION=latest
+    env_file:
+      - stack.env
     ports:
       - '0.0.0.0:32400:32400'
     restart: unless-stopped
