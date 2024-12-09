@@ -24,20 +24,20 @@ If you already have a VPN that supports P2P, you can skip this paragraph. If not
 
 
 ## Services and their use
-Images                   | Use
--------------------------|-----------------
-transmission (+ openvpn) | downloads
-prowlarr                 | indexer manager
-calibre                  | books library manager
-calibre-web              | books library to enable Kobo Sync
-openbooks (*)            | books finder
-radarr                   | movies
-lidarr                   | music
-sonarr                   | tv
-plex                     | movies music tv
-soulseek                 | music downloads
-filebrowser              | local filesharing
-organizr                 | all your services from a single tab
+| Images                   | Use                                 |
+| ------------------------ | ----------------------------------- |
+| transmission (+ openvpn) | downloads                           |
+| prowlarr                 | indexer manager                     |
+| calibre                  | books library manager               |
+| calibre-web              | books library to enable Kobo Sync   |
+| openbooks (*)            | books finder                        |
+| radarr                   | movies                              |
+| lidarr                   | music                               |
+| sonarr                   | tv                                  |
+| plex                     | movies music tv                     |
+| soulseek                 | music downloads                     |
+| filebrowser              | local filesharing                   |
+| organizr                 | all your services from a single tab |
 
 ```
 (*) Alternative:  Library Genesis (Libgen)
