@@ -1,5 +1,12 @@
+
+# public
 http:
   routers:
+    bazarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`bazarr.mycooldomain.duckdns.org`) || Host(`b.mycooldomain.duckdns.org`)"
+      service: bazarr
     calibre:
       entryPoints:
         - "https"
@@ -19,25 +26,45 @@ http:
         - "http"
       rule: "Host(`filebrowser.mycooldomain.duckdns.org`) || Host(`f.mycooldomain.duckdns.org`)"
       service: filebrowser
+    freshrss:
+      entryPoints:
+        - "http"
+      rule: "Host(`freshrss.mycooldomain.duckdns.org`) || Host(`rss.mycooldomain.duckdns.org`)"
+      service: freshrss
+    jellyfin:
+      entryPoints:
+        - "http"
+      rule: "Host(`jellyfin.mycooldomain.duckdns.org`) || Host(`j.mycooldomain.duckdns.org`)"
+      service: jellyfin
+    jellyseerr:
+      entryPoints:
+        - "http"
+      rule: "Host(`jellyseerr.mycooldomain.duckdns.org`) || Host(`js.mycooldomain.duckdns.org`)"
+      service: jellyseerr
     lidarr:
       entryPoints:
         - "http"
-      rule: "Host(`lidarr.mycooldomain.duckdns.org`) || Host(`l.mycooldomain.duckdns.org`)"
+      rule: "Host(`lidarr.mycooldomain.duckdns.org`) || Host(`li.mycooldomain.duckdns.org`)"
       service: lidarr
+    linkwarden:
+      entryPoints:
+        - "http"
+      rule: "Host(`linkwarden.mycooldomain.duckdns.org`) || Host(`l.mycooldomain.duckdns.org`)"
+      service: linkwarden
     openbooks:
       entryPoints:
         - "http"
-      rule: "Host(`openbooks.mycooldomain.duckdns.org`) || Host(`op.mycooldomain.duckdns.org`)"
+      rule: "Host(`openbooks.mycooldomain.duckdns.org`) || Host(`opb.mycooldomain.duckdns.org`)"
       service: openbooks
-    openwebui:
+    overseerr:
       entryPoints:
         - "http"
-      rule: "Host(`openwebui.mycooldomain.duckdns.org`) || Host(`opw.mycooldomain.duckdns.org`) || Host(`w.mycooldomain.duckdns.org`)"
-      service: openwebui
+      rule: "Host(`overseerr.mycooldomain.duckdns.org`) || Host(`ov.mycooldomain.duckdns.org`)"
+      service: overseerr
     organizr:
       entryPoints:
         - "http"
-      rule: "Host(`organizr.mycooldomain.duckdns.org`) || Host(`o.mycooldomain.duckdns.org`)"
+      rule: "Host(`organizr.mycooldomain.duckdns.org`) || Host(`o.mycooldomain.duckdns.org`) || Host(`index.mycooldomain.duckdns.org`) || Host(`i.mycooldomain.duckdns.org`)"
       service: organizr
     plex:
       entryPoints:
@@ -64,60 +91,86 @@ http:
         - "http"
       rule: "Host(`transmission.mycooldomain.duckdns.org`) || Host(`t.mycooldomain.duckdns.org`)"
       service: transmission
+    soulseek:
+      entryPoints:
+        - "http"
+      rule: "Host(`soulseek.mycooldomain.duckdns.org`) || Host(`so.mycooldomain.duckdns.org`)"
+      service: soulseek
   services:
+    bazarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:6767"
     calibre:
       loadBalancer:
         servers:
-          - url: "https://calibre.mycooldomain.duckdns.org:8093"
+          - url: "https://mycooldomain.duckdns.org:8093"
         passHostHeader: true
     calibre-web:
       loadBalancer:
         servers:
-          - url: "http://calibre-web.mycooldomain.duckdns.org:8083"
+          - url: "http://mycooldomain.duckdns.org:8083"
     filebrowser:
       loadBalancer:
         servers:
-          - url: "http://filebrowser.mycooldomain.duckdns.org:8090"
+          - url: "http://mycooldomain.duckdns.org:8090"
+    freshrss:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9092"
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8096"
+    jellyseerr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:5056"
     lidarr:
       loadBalancer:
         servers:
-          - url: "http://lidarr.mycooldomain.duckdns.org:8686"
+          - url: "http://mycooldomain.duckdns.org:8686"
+    linkwarden:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9093"
     openbooks:
       loadBalancer:
         servers:
-          - url: "http://openbooks.mycooldomain.duckdns.org:8099"
-    openwebui:
+          - url: "http://mycooldomain.duckdns.org:8099"
+    overseerr:
       loadBalancer:
         servers:
-          - url: "http://openwebui.mycooldomain.duckdns.org:8084"
+          - url: "http://mycooldomain.duckdns.org:5055"
     organizr:
       loadBalancer:
         servers:
-          - url: "http://organizr.mycooldomain.duckdns.org:9983"
+          - url: "http://mycooldomain.duckdns.org:9983"
     plex:
       loadBalancer:
         servers:
-          - url: "http://plex.mycooldomain.duckdns.org:32400"
+          - url: "http://mycooldomain.duckdns.org:32400"
     prowlarr:
       loadBalancer:
         servers:
-          - url: "http://prowlarr.mycooldomain.duckdns.org:9696"
+          - url: "http://mycooldomain.duckdns.org:9696"
     radarr:
       loadBalancer:
         servers:
-          - url: "http://radarr.mycooldomain.duckdns.org:7880"
+          - url: "http://mycooldomain.duckdns.org:7880"
     sonarr:
       loadBalancer:
         servers:
-          - url: "http://sonarr.mycooldomain.duckdns.org:8989"
+          - url: "http://mycooldomain.duckdns.org:8989"
     soulseek:
       loadBalancer:
         servers:
-          - url: "http://soulseek.mycooldomain.duckdns.org:6080"
+          - url: "http://mycooldomain.duckdns.org:6080"
     transmission:
       loadBalancer:
         servers:
-          - url: "http://transmission.mycooldomain.duckdns.org:9091"
+          - url: "http://mycooldomain.duckdns.org:9091"
+
   middlewares:
     default-headers:
       headers:
@@ -127,7 +180,7 @@ http:
         forceSTSHeader: true
         stsIncludeSubdomains: true
         stsPreload: true
-        stsSeconds: 15552000 # "Strict-Transport-Security" HTTP header is not set to at least "15552000" seconds
+        stsSeconds: 15552000
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
@@ -146,3 +199,213 @@ http:
         middlewares:
         - default-whitelist
         - default-headers
+http:
+  routers:
+    bazarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`bazarr.mycooldomain.duckdns.org`) || Host(`b.mycooldomain.duckdns.org`)"
+      service: bazarr
+    calibre:
+      entryPoints:
+        - "https"
+      middlewares:
+        - default-headers
+        - http-redirectscheme
+      tls: {}
+      rule: "Host(`calibre.mycooldomain.duckdns.org`) || Host(`c.mycooldomain.duckdns.org`)"
+      service: calibre
+    calibre-web:
+      entryPoints:
+        - "http"
+      rule: "Host(`calibre-web.mycooldomain.duckdns.org`) || Host(`cw.mycooldomain.duckdns.org`)"
+      service: calibre-web
+    filebrowser:
+      entryPoints:
+        - "http"
+      rule: "Host(`filebrowser.mycooldomain.duckdns.org`) || Host(`f.mycooldomain.duckdns.org`)"
+      service: filebrowser
+    freshrss:
+      entryPoints:
+        - "http"
+      rule: "Host(`freshrss.mycooldomain.duckdns.org`) || Host(`rss.mycooldomain.duckdns.org`)"
+      service: freshrss
+    jellyfin:
+      entryPoints:
+        - "http"
+      rule: "Host(`jellyfin.mycooldomain.duckdns.org`) || Host(`j.mycooldomain.duckdns.org`)"
+      service: jellyfin
+    jellyseerr:
+      entryPoints:
+        - "http"
+      rule: "Host(`jellyseerr.mycooldomain.duckdns.org`) || Host(`js.mycooldomain.duckdns.org`)"
+      service: jellyseerr
+    lidarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`lidarr.mycooldomain.duckdns.org`) || Host(`li.mycooldomain.duckdns.org`)"
+      service: lidarr
+    linkwarden:
+      entryPoints:
+        - "http"
+      rule: "Host(`linkwarden.mycooldomain.duckdns.org`) || Host(`l.mycooldomain.duckdns.org`)"
+      service: linkwarden
+    openbooks:
+      entryPoints:
+        - "http"
+      rule: "Host(`openbooks.mycooldomain.duckdns.org`) || Host(`opb.mycooldomain.duckdns.org`)"
+      service: openbooks
+    openwebui:
+      entryPoints:
+        - "http"
+      rule: "Host(`openwebui.mycooldomain.duckdns.org`) || Host(`op.mycooldomain.duckdns.org`) || Host(`w.mycooldomain.duckdns.org`)"
+      service: openwebui
+    overseerr:
+      entryPoints:
+        - "http"
+      rule: "Host(`overseerr.mycooldomain.duckdns.org`) || Host(`ov.mycooldomain.duckdns.org`)"
+      service: overseerr
+    organizr:
+      entryPoints:
+        - "http"
+      rule: "Host(`organizr.mycooldomain.duckdns.org`) || Host(`o.mycooldomain.duckdns.org`) || Host(`index.mycooldomain.duckdns.org`) || Host(`i.mycooldomain.duckdns.org`)"
+      service: organizr
+    plex:
+      entryPoints:
+        - "http"
+      rule: "Host(`plex.mycooldomain.duckdns.org`) || Host(`p.mycooldomain.duckdns.org`)"
+      service: plex
+    prowlarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`prowlarr.mycooldomain.duckdns.org`) || Host(`pr.mycooldomain.duckdns.org`)"
+      service: prowlarr
+    sonarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`sonarr.mycooldomain.duckdns.org`) || Host(`s.mycooldomain.duckdns.org`)"
+      service: sonarr
+    radarr:
+      entryPoints:
+        - "http"
+      rule: "Host(`radarr.mycooldomain.duckdns.org`) || Host(`r.mycooldomain.duckdns.org`)"
+      service: radarr
+    transmission:
+      entryPoints:
+        - "http"
+      rule: "Host(`transmission.mycooldomain.duckdns.org`) || Host(`t.mycooldomain.duckdns.org`)"
+      service: transmission
+    slskd:
+      entryPoints:
+        - "http"
+      rule: "Host(`soulseek.mycooldomain.duckdns.org`) || Host(`so.mycooldomain.duckdns.org`)"
+      service: slskd
+  services:
+    bazarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:6767"
+    calibre:
+      loadBalancer:
+        servers:
+          - url: "https://mycooldomain.duckdns.org:8093"
+        passHostHeader: true
+    calibre-web:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8083"
+    filebrowser:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8090"
+    freshrss:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9092"
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8096"
+    jellyseerr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:5056"
+    lidarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8686"
+    linkwarden:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9093"
+    openbooks:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8099"
+    openwebui:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8084"
+    overseerr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:5055"
+    organizr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9983"
+    plex:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:32400"
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9696"
+    radarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:7880"
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:8989"
+    slskd:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:5030"
+    transmission:
+      loadBalancer:
+        servers:
+          - url: "http://mycooldomain.duckdns.org:9091"
+
+  middlewares:
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+    http-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+        # - "10.0.0.0/8"
+        - "192.168.0.0/16"
+        # - "172.16.0.0/12"
+    secured:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers
+
+

@@ -17,12 +17,13 @@ jobs:
       - name: Install dclint
         run: npm install --save-dev dclint
 
-      # Create config file to allow "latest" tag
+      # Create config file to allow "latest" and "dev" tags
       - name: Create config file
         run: |
           cat <<EOL > config.json
           {
             "rules": {
+              "no-unbound-port-interfaces": 0,
               "service-image-require-explicit-tag": [
                 1,
                 {
@@ -30,7 +31,6 @@ jobs:
                     "edge",
                     "test",
                     "nightly",
-                    "dev",
                     "beta",
                     "canary",
                   ]

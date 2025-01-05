@@ -5,3 +5,7 @@ traefik/secret-traefik.yml
 traefik/secret-docker-compose.yml
 secret-docker-compose-novpn.yml
 secret-home-media-server-novpn.env
+secrets.env
+linkwarden/secret-stack.env
+traefik/secret-stack.env
+secret-slskd.yml
