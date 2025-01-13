@@ -1,0 +1,9 @@
+{
+  "onboarding": true,
+  "repositories": ["sogladev/home-media-server"],
+  "docker-compose": {
+    "digest": {
+      "enabled": false
+    }
+  }
+}
