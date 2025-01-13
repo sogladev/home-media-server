@@ -1,13 +1,9 @@
 {
-   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-   "extends": [
-      "config:recommended"
-   ],
+  "onboarding": true,
+  "repositories": ["sogladev/home-media-server"],
   "docker-compose": {
     "digest": {
       "enabled": false
     }
   },
-  "onboarding": false,
-  "repositories": ["sogladev/home-media-server"]
 }
