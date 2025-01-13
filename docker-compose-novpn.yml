@@ -120,7 +120,7 @@ services:
     restart: unless-stopped
 
   linkwarden:
-    image: ghcr.io/linkwarden/linkwarden:v2.8.4
+    image: ghcr.io/linkwarden/linkwarden:v2.9.3
     container_name: "linkwarden"
     depends_on:
       - postgres
