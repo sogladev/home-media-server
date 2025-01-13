@@ -1,15 +1,14 @@
 {
-  "extends": ["config:recommended"],
-  "regexManagers": [
+  "packageRules": [
     {
-      "fileMatch": [
-        "renovate.yml",
-        "validate-docker-compose.yml",
-        "validate-env.yml",
-        "docker-compose-novpn.yml",
-        "docker-compose.yml"
-      ],
-      "datasourceTemplate": "docker"
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["foo/bar"],
+      "versioning": "semver"
     }
-  ]
+  ],
+  "docker-compose": {
+    "digest": {
+      "enabled": false
+    }
+  }
 }
