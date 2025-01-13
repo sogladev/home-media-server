@@ -15,10 +15,6 @@ on:
         required: false
         default: "false"
         type: string
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   renovate:
