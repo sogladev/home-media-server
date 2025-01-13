@@ -1,154 +1,277 @@
 name: "home-media-server-novpn"
 
 services:
+  bazarr:
+    image: hotio/bazarr:release-1.5.1
+    container_name: bazarr
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/bazarr:/config
+      - ${HMS_ROOT_DATA}/media:/media
+    environment:
+      - stack.env
+    ports:
+      - '${HMS_BAZARR_PORT:-6767}:6767'
+    restart: unless-stopped
+    logging:
+      driver: json-file
+
   calibre:
-    image: linuxserver/calibre:7.22.0
+    image: linuxserver/calibre:7.23.0
     container_name: calibre
     volumes:
-      - /media/${USER}/Data/appdata/calibre:/config
-      - /media/${USER}/Data/media/books:/books
-      - /media/${USER}/Data/media/books_not_in_library:/books_add_me
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/calibre:/config
+      - ${HMS_ROOT_DATA}/media:/media
     env_file:
       - stack.env
-    network_mode: "service:transmission"
+    ports:
+      - '${HMS_CALIBRE_HTTP_PORT:-8092}:8080'
+      - '${HMS_CALIBRE_HTTPS_PORT:-8093}:8181'
     restart: unless-stopped
 
   calibre-web:
     image: linuxserver/calibre-web:0.6.24
     container_name: calibre-web
     volumes:
-      - /media/${USER}/Data/appdata/calibre-web:/config
-      - /media/${USER}/Data/media/books:/books
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/calibre-web:/config
+      - ${HMS_ROOT_DATA}/media:/media
     env_file:
       - stack.env
-    network_mode: "service:transmission"
+    ports:
+      - '${HMS_CALIBRE_WEB_PORT:-8083}:8083'
     restart: unless-stopped
 
   filebrowser:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     volumes:
-      - /media/${USER}/Data/appdata/filebrowser/filebrowser.db:/database/filebrowser.db
-      - /media/${USER}/Data/appdata/filebrowser/settings.json:/config/settings.json
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/filebrowser/filebrowser.db:/database/filebrowser.db
+      - ${HMS_ROOT_APPDATA}/filebrowser/settings.json:/config/settings.json
       # Shared folders root is /srv
       # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Filebrowser/*
-      - /home/${USER}/Applications/Filebrowser:/srv
-      - /home/${USER}/Documents/Share:/srv/Documents
-      - /media/${USER}/Backup/Share:/srv/Backup
+      - ${HMS_ROOT_DATA}/media/filebrowser:/srv
+    environment:
+      - FB_BASEURL=/filebrowser
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:8090:80'
+      - '${HMS_FILEBROWSER_PORT:-8090}:80'
+    restart: unless-stopped
+
+  freshrss:
+    image: linuxserver/freshrss:1.25.0
+    container_name: freshrss
+    volumes:
+      - ${HMS_ROOT_APPDATA}/freshrss/config:/config
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_FRESHRSS_PORT:-9092}:80'
+    restart: unless-stopped
+
+  jellyfin:
+    image: jellyfin/jellyfin:2024123005
+    container_name: jellyfin
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/jellyfin/config:/config
+      - ${HMS_ROOT_APPDATA}/jellyfin/cache:/cache
+      - ${HMS_ROOT_DATA}/media:/data/media
+    environment:
+      - JELLYFIN_PublishedServerUrl=${JELLYFIN_PUBLISHED_SERVER_URL:-http://127.0.0.1}
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_JELLYFIN_PORT:-8096}:8096'
+      # - 8920:8920 #optional
+      # - 7359:7359/udp #optional
+      # - 1900:1900/udp #optional
+    restart: 'unless-stopped'
+    user: 1000:1000
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:2.2.3
+    container_name: jellyseerr
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/jellyseerr/config:/app/config
+    environment:
+      - LOG_LEVEL=debug
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_JELLYSEERR_PORT:-5056}:5055'
     restart: unless-stopped
 
   lidarr:
     image: linuxserver/lidarr:2.7.1
-    container_name: "lidarr-main"
+    container_name: "lidarr"
     volumes:
-      - /media/${USER}/Data/appdata/lidarr:/config
-      - /media/${USER}/Data/media/music:/media
-      - /media/${USER}/Data/downloads/soulseekqt:/downloads
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/lidarr:/config
+      - ${HMS_ROOT_DATA}:/data
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:8686:8686'
+      - '${HMS_LIDARR_PORT:-8686}:8686'
     restart: unless-stopped
+
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:v2.8.4
+    container_name: "linkwarden"
+    depends_on:
+      - postgres
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/linkwarden/data:/data/data
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_LINKWARDEN_PORT:-9093}:3000'
+    restart: always
 
   openbooks:
     image: evanbuss/openbooks:4.5.0
     container_name: openbooks
     volumes:
-      - /media/${USER}/Data/media/books_not_in_library:/books
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_DATA}:/data
     environment:
       - BASE_PATH=/openbooks/
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:8099:80'
-    command: --name ${OPENBOOKS_DISPLAY_NAME} --persist
+      - '${HMS_OPENBOOKS_PORT:-8099}:80'
+    command: --name ${OPENBOOKS_DISPLAY_NAME:-mycoolname} --persist
     restart: unless-stopped
 
-  plex:
-    image: linuxserver/plex:1.41.2
-    container_name: plex
+  organizr:
+    image: organizr/organizr:linux-amd64
+    container_name: organizr
     volumes:
-      - /media/${USER}/Data/appdata/plex:/config
-      - /media/${USER}/Data/media/tv:/tv
-      - /media/${USER}/Data/media/movies:/movies
-      - /media/${USER}/Data/media/muziek:/muziek
+      - ${HMS_ROOT_APPDATA}/organizr:/config
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:32400:32400'
+      - '${HMS_OVERSEERR_PORT:-9983}:80'
+    restart: unless-stopped
+
+  overseerr:
+    image: linuxserver/overseerr:1.33.2
+    container_name: overseerr
+    volumes:
+      - ${HMS_ROOT_APPDATA}/overseerr:/config
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_OVERSEERR_PORT:-5055}:5055'
+    restart: unless-stopped
+
+  plex:
+    image: linuxserver/plex:1.41.3
+    container_name: plex
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/plex:/config
+      - ${HMS_ROOT_DATA}/media:/data/media
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_PLEX_PORT:-32400}:32400'
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: "linkwarden-postgres"
+    volumes:
+      - ${HMS_ROOT_APPDATA}/linkwarden/pgdata:/var/lib/postgresql/data
+    env_file:
+      - stack.env
     restart: unless-stopped
 
   prowlarr:
-    image: linuxserver/prowlarr:1.27.0
+    image: linuxserver/prowlarr:1.28.2
     container_name: prowlarr
     volumes:
-      - /media/${USER}/Data/appdata/prowlarr:/config
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/prowlarr:/config
     env_file:
       - stack.env
-    network_mode: "service:transmission"
+    ports:
+      - '${HMS_PROWLARR_PORT:-9696}:9696'
     restart: unless-stopped
 
   radarr:
     image: linuxserver/radarr:5.15.1
     container_name: radarr
     volumes:
-      - /media/${USER}/Data/appdata/radarr:/config
-      - /media/${USER}/Data/downloads:/downloads
-      - /media/${USER}/Data/media:/media
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/radarr:/config
+      - ${HMS_ROOT_DATA}:/data
     env_file:
       - stack.env
-    network_mode: "service:transmission"
+    ports:
+      - '${HMS_RADARR_PORT:-7880}:7878'
+    restart: unless-stopped
+
+  slskd:
+    image: slskd/slskd:0.22.1.65534-b18f7b00
+    container_name: slskd
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/slskd:/app
+      - ${HMS_ROOT_DATA}:/data
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+    env_file:
+      - stack.env
+    ports:
+      - '${HMS_SLSKD_PORT:-5030}:5030'
+      - '${HMS_SLSKD_PORT:-5031}:5031'
+      - '${HMS_SLSKD_PORT:-50300}:50300'
     restart: unless-stopped
 
   sonarr:
     image: linuxserver/sonarr:4.0.11
     container_name: sonarr
     volumes:
-      - /media/${USER}/Data/appdata/sonarr:/config
-      - /media/${USER}/Data/downloads:/downloads
-      - /media/${USER}/Data/media:/media
-    env_file:
-      - stack.env
-    network_mode: "service:transmission"
-    restart: unless-stopped
-
-  soulseek:
-    image: realies/soulseek:latest
-    container_name: soulseek
-    volumes:
-      - /media/${USER}/Data/appdata/soulseek:/data/.SoulseekQt
-      - /media/${USER}/Data/downloads/soulseekqt:/data/Soulseek Downloads
-      - /media/${USER}/Data/appdata/soulseek/chat_logs:/data/Soulseek Chat Logs
-      - /media/${USER}/Data/media:/data/"Soulseek Shared Folder"
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/sonarr:/config
+      - ${HMS_ROOT_DATA}:/data
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:6080:6080'
+      - '${HMS_SONARR_PORT:-8989}:8989'
     restart: unless-stopped
+
+  soularr:
+    image: mrusse08/soularr:dev
+    container_name: soularr
+    volumes:
+      - ${HMS_ROOT_APPDATA}/soularr:/data
+      - ${HMS_ROOT_DATA}:/data/soulseek/downloads
+    environment:
+      - SCRIPT_INTERVAL=1800 # in seconds
+    env_file:
+      - stack.env
+    restart: unless-stopped
+    user: "1000:1000"
+    hostname: soularr
 
   transmission:
     image: linuxserver/transmission:4.0.6
     container_name: transmission
     volumes:
-      - /media/${USER}/Data/downloads:/downloads
-      - /media/${USER}/Data/appdata/transmission:/config
+      - /etc/localtime:/etc/localtime:ro
+      - ${HMS_ROOT_APPDATA}/transmission:/config
+      - ${HMS_ROOT_DATA}/torrents:/data/torrents
     env_file:
       - stack.env
     ports:
-      - '0.0.0.0:7880:7878' # radarr 7878 used by SOAP
-      - '0.0.0.0:8083:8083' # calibre-web
-      - '0.0.0.0:8086:8081' # calibre
-      - '0.0.0.0:8087:8080' # calibre
-      - '0.0.0.0:8888:8888'
-      - '0.0.0.0:8989:8989' # sonarr
-      - '0.0.0.0:9091:9091'
-      - '0.0.0.0:9696:9696' # prowlarr
+      - '${HMS_TRANSMISSION_PORT:-9091}:9091'
     restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - "/dev/net/tun"

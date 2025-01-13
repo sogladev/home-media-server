@@ -1,48 +1,39 @@
 # Home Media Server
 
-`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, and eBooks + Kobo eReader sync. Featuring apps like Plex, Transmission, Prowlarr, Radarr, Sonarr, Lidarr, Calibre, and Filebrowser, this server empowers you to enjoy and organize your media collection with ease.
+`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, web links, rss feeds and eBooks + Kobo eReader sync. Featuring apps like Plex/Jellyfin, Overseerr/Jellyseerr, Transmission, Prowlarr, Radarr, Sonarr, Lidarr, Freshrss, Linkwarden, Calibre, and Filebrowser, this server empowers you to enjoy and organize your media collection with ease.
 
 You have two configuration options:
 
 1. Without VPN (`*-novpn.yml`): For straightforward local use.
-1. With VPN (`*-vpn.yml`): Enhances privacy and secures your P2P traffic via OpenVPN
+1. (deprecated, see vpn branch) With VPN (`*-vpn.yml`): Enhances privacy and secures your P2P traffic via OpenVPN
 
 Optional Stacks:
 
 - Traefik: Simplifies service management by providing a reverse proxy with easy-to-configure, accessible URLs for all services.
-- Organizr: Acts as a unified front-end dashboard to access and organize all your services in one convenient place.
-
-## VPN or no VPN
-
-Choosing whether to use a VPN is entirely up to you. Here’s the key difference:
-
-- **Without VPN**: Your P2P and Soulseek traffic will route directly through your internet connection, which is simple to set up but offers no additional privacy.
-- **With VPN**: Routes all P2P and Soulseek traffic through OpenVPN, providing enhanced privacy, encryption, and security. This is entirely **separate** from your normal internet traffic. This setup is highly recommended if you value anonymity
-
-Choosing the VPN setup requires a few additional steps. Here’s what you need:
-
-1. **A VPN with P2P Support**: Critical for torrenting and file-sharing services.
-2. **OpenVPN Configuration Files**: Obtain these from your VPN provider.
-3. **Credentials**: Login details. These depend on your VPN provider
-
-If you already have a VPN that supports P2P, you can skip this paragraph. If not, consider a reliable provider. I recommend **ProtonVPN** (tested and pre-configured with this setup) or alternatives like **Surfshark** and **Windscribe**.
 
 ## Services and their use
 
-| Images                   | Use                                 |
-| ------------------------ | ----------------------------------- |
-| transmission (+ openvpn) | downloads                           |
-| prowlarr                 | indexer manager                     |
-| calibre                  | books library manager               |
-| calibre-web              | books library to enable Kobo Sync   |
-| openbooks (\*)           | books finder                        |
-| radarr                   | movies                              |
-| lidarr                   | music                               |
-| sonarr                   | tv                                  |
-| plex                     | movies music tv                     |
-| soulseek                 | music downloads                     |
-| filebrowser              | local filesharing                   |
-| organizr                 | all your services from a single tab |
+| Service                                                 | Use                           |
+| ------------------------------------------------------- | ----------------------------- |
+| [bazarr](https://www.bazarr.media/)                     | Subtitle management           |
+| [calibre](https://calibre-ebook.com/)                   | Ebook management              |
+| [calibre-web](https://github.com/janeczku/calibre-web)  | Web interface for Calibre     |
+| [filebrowser](https://filebrowser.org/)                 | File management               |
+| [freshrss](https://freshrss.org/)                       | RSS feed reader               |
+| [jellyfin](https://jellyfin.org/)                       | Media server                  |
+| [jellyseerr](https://github.com/Fallenbagel/jellyseerr) | Media request management      |
+| [lidarr](https://lidarr.audio/)                         | Music collection manager      |
+| [linkwarden](https://github.com/linkwarden/linkwarden)  | Bookmark manager              |
+| [openbooks](https://github.com/evan-buss/openbooks)     | Book searcher (\*)            |
+| [organizr](https://github.com/causefx/Organizr)         | Unified web interface         |
+| [overseerr](https://overseerr.dev/)                     | Media request management      |
+| [plex](https://www.plex.tv/)                            | Media server                  |
+| [prowlarr](https://prowlarr.com/)                       | Indexer manager               |
+| [radarr](https://radarr.video/)                         | Movie collection manager      |
+| [sonarr](https://sonarr.tv/)                            | TV show collection manager    |
+| [soularr](https://soularr.net)                          | connects Lidarr with Soulseek |
+| [slsk](https://www.slsknet.org/)                        | Soulseek P2P file sharing     |
+| [transmission](https://transmissionbt.com/)             | BitTorrent client             |
 
 ```
 (*) Alternative:  Library Genesis (Libgen)
@@ -51,40 +42,52 @@ If you already have a VPN that supports P2P, you can skip this paragraph. If not
 ## Folder structure
 
 ```
- /
- ├── appdata
-      ├── calibre
-      ├── calibre-web
-      ├── filebrowser
-      ├── lidarr
-      ├── openbooks
-      ├── organizr
-      ├── plex
-      ├── prowlarr
-      ├── radarr
-      ├── sonarr
-      ├── soulseek
-      └── transmission
- ├── downloads
-      ├── complete
-           ├── books
-           ├── movies
-           ├── music
-           └── tv
-      ├── soulseekqt
-      └── incomplete
-└── media
-     ├── books
-     ├── movies
-     ├── music
-     └── tv
+/
+├── appdata
+     ├── bazarr
+     ├── calibre
+     ├── calibre-web
+     ├── filebrowser
+     ├── freshrss
+     ├── jackett
+     ├── jellyfin
+     ├── jellyseerr
+     ├── lidarr
+     ├── linkwarden
+     ├── openbooks
+     ├── organizr
+     ├── overseerr
+     ├── plex
+     ├── prowlarr
+     ├── radarr
+     ├── slskd
+     ├── sonarr
+     ├── soularr
+     ├── soulseek
+     ├── traefik
+     └── transmission
+└── data
+     ├── media
+     │   ├── books
+     │   ├── books_not_in_library
+     │   ├── filebrowser
+     │   ├── movies
+     │   ├── music
+     │   └── tv
+     ├── soulseek
+     │   ├── downloads
+     │   └── incomplete
+     └── torrents
+          ├── incomplete
+          ├── movies
+          └── tv
 ```
 
-# Deploying the stack
+## Deploying the stack
 
-This section covers deployment options for your home media server stack. You can choose to deploy using Portainer, Docker Compose with Docker Desktop, or Podman. Each method has its own advantages, but for simplicity and ease of use, we recommend using Portainer.
+This section covers deployment options for your home media server stack. You can choose to deploy using Portainer, Docker Compose with Docker Desktop, or Podman. Each method has its own advantages, but for simplicity and ease of use, I recommend using Portainer.
 
-## Using portainer
+### Using portainer
 
 copypaste `docker-compose*.yml` to portainer
 
@@ -92,89 +95,76 @@ config and add `home-media-server*.env` to portainer
 
 launch stack
 
-## Docker desktop
+### Command line
 
-Make sure file sharing is enabled for the directories you are mapping.
-
-```
-setup settings -> resources -> file sharing
-```
-
-Then you can setup a folder so that:
+setup a folder so that:
 
 ```
 .
 ├── docker-compose.yml
 └── stack.env
+```
+
+```sh
 $ docker compose --env-file stack.env up --detach
 ```
 
-## Podman desktop
+## Config
 
-Similarly to Docker desktop setup, use Podman with the Compose Engine
-
-https://podman-desktop.io/docs/compose/running-compose
-https://podman-desktop.io/docs/compose/setting-up-compose
-"/usr/local/bin" added to `$PATH`
-
-```
-.
-├── docker-compose.yml
-└── stack.env
-$ podman compose --env-file stack.env up --detach
-```
-
-# Config
-
-After launching for the first time, some configuration is required. Always refer to the official docs. Some pointers are listed per application
+After launching for the first time, some configuration is required. Always refer to the official docs (see [Services and their use](#services-and-their-use)). Some pointers are listed per application.
 
 Config through web by going to `http://0.0.0.0:{port}/`
 
-| Port  | Application   | Domain                         | Domain Short |
-| ----- | ------------- | ------------------------------ | ------------ |
-| 8989  | sonarr        | sonarr.domain.duckdns.org      | s            |
-| 7880  | radarr        | radarr.domain.duckdns.org      | r            |
-| 9696  | prowlarr      | prowlarr.domain.duckdns.org    | pr           |
-| 8686  | lidarr        | lidarr.domain.duckdns.org      | l            |
-| 8083  | calibre-web   | calibre-web.domain.duckdns.org | cw           |
-| 8092  | calibre http  |                                |              |
-| 8093  | calibre https | calibre.domain.duckdns.org     | c            |
-| 32400 | plex          | plex.domain.duckdns.org        | p            |
-| 6080  | soulseek      | soulseek.domain.duckdns.org    | so           |
-| 8090  | filebrowser   | filebrowser.domain.duckdns.org | f            |
-| 8099  | openbooks     | openbooks.domain.duckdns.org   | op           |
-| 9983  | organizr      | organizr.domain.duckdns.org    | o            |
+| Port  | Application     | Domain                          | Domain Short |
+| ----- | --------------- | ------------------------------- | ------------ |
+| 6767  | bazarr          | bazarr.domain.duckdns.org       | b            |
+| 8093  | calibre https   | calibre.domain.duckdns.org      | c            |
+| 8092  | calibre http    |                                 |              |
+| 8083  | calibre-web     | calibre-web.domain.duckdns.org  | cw           |
+| 8090  | filebrowser     | filebrowser.domain.duckdns.org  | f            |
+| 9092  | freshrss        | freshrss.domain.duckdns.org     | rss          |
+| 8096  | jellyfin        | jellyfin.domain.duckdns.org     | j            |
+| 5056  | jellyseerr      | jellyseerr.domain.duckdns.org   | js           |
+| 8686  | lidarr          | lidarr.domain.duckdns.org       | l            |
+| 9093  | linkwarden      | linkwarden.domain.duckdns.org   | lw           |
+| 8099  | openbooks       | openbooks.domain.duckdns.org    | op           |
+| 9983  | organizr        | organizr.domain.duckdns.org     | o            |
+| 5055  | overseerr       | overseerr.domain.duckdns.org    | ov           |
+| 32400 | plex            | plex.domain.duckdns.org         | p            |
+| 9696  | prowlarr        | prowlarr.domain.duckdns.org     | pr           |
+| 7880  | radarr          | radarr.domain.duckdns.org       | r            |
+| 5030  | slsk (soulseek) | soulseek.domain.duckdns.org     | so           |
+| 8989  | sonarr          | sonarr.domain.duckdns.org       | s            |
+| 9091  | transmission    | transmission.domain.duckdns.org | t            |
 
-## Transmission
+### Transmission
 
-Use environment variables to configure
+mapping:
+downloads: `/data/torrents`
+incomplete: `/data/torrents/incomplete`
 
-refer to: https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md
+#### non-default web UI
 
-for example some bandwidth envs are setup by default:
+manually install
 
-```
-Bandwidth
+https://github.com/johman10/flood-for-transmission
 
-    speed-limit-down: Number (KB/s, default = 100)
-    speed-limit-down-enabled: Boolean (default = false)
-    speed-limit-up: Number (KB/s, default = 100)
-    speed-limit-up-enabled: Boolean (default = false)
-    upload-slots-per-torrent: Number (default = 14)
-```
+1. cd appdata/transmission
+2. curl
+3. unzip
 
-### VPN Configuration
-
-If using ProtonVPN, you can skip the OpenVPN configuration files and you only need to obtain your credentials. These are obtained through the web interface under sidebar option `Account` -> `OpenVPN / IKEv2 username and password`. These will be your
-`OPENVPN_USERNAME` and `OPENVPN_PASSWORD` respectively. Direct link to ProtonVPN docs http://haugene.github.io/docker-transmission-openvpn/provider-specific/#protonvpn
-
-For other providers, the docs can be found at http://haugene.github.io/docker-transmission-openvpn/
-
-## Prowlarr
+### Prowlarr
 
 https://docs.prowler.com/projects/prowler-open-source/en/latest/
 
-## Sonarr, radarr, lidarr
+instead of localhost, use their service names:
+
+```
+http://prowlarr:9696
+http://radarr:7878
+```
+
+### Sonarr, radarr, lidarr
 
 These services require you to setup an indexer (prowlarr) and a download client (transmission)
 
@@ -185,17 +175,17 @@ These services require you to setup an indexer (prowlarr) and a download client 
 
 ```
 Transmission client
-    Add category {tv|music|movies|books}
+    Add category {tv|movies}
 ```
 
-## Calibre, calibre-web
+### Calibre, calibre-web
 
 default login calibre: `abc abc`
 default login calibre-web: `admin admin123`
 
 Use calibre to add books, calibre-web to setup a store endpoint to enable Kobo Sync
 
-### Setup eReader with Kobo sync and calibre-web
+#### Setup eReader with Kobo sync and calibre-web
 
 documentation: https://github.com/janeczku/calibre-web/wiki/Kobo-Integration
 Note that the following is written and tested for a `Kobo Aura H2O` model, steps may be different or this might not work at all for any other models.
@@ -234,7 +224,7 @@ http://localhost:8083/calibreweb/kobo/{token}/v1/library/sync
 
 Go the api_endpoint in browser. If this is empty, consider pressing "Force full kobo sync" in the user options in calibre-web
 
-## Filebrowser
+### Filebrowser
 
 `- /home/${USER}/Applications/Filebrowser:/srv`
 
@@ -264,11 +254,7 @@ same with settings.json
 
 admin/admin on initial login :8090
 
-## Soulseek
-
-setup Share folder(s) by clicking "Share Folder" at the very top of interface
-
-## Openbooks
+### Openbooks
 
 documentation: https://evan-buss.github.io/openbooks/setup/docker/
 
@@ -280,12 +266,19 @@ Books are downloaded through the browser. They need to be manually added to cali
 
 The library will automaticly synchronize with `calibre web` and can then be synced to your ereader. Periodic syncing should be enabled by default on your ereader.
 
-## Organizr
+### Organizr
 
 documentation: https://docs.organizr.app/
 https://github.com/causefx/Organizr
 
-# Credits
+### Slskd
+
+default username and password:
+slskd
+
+example config in `slskd/slskd.yml`
+
+## Credits
 
 Inspired by Youtube tutorial of a similar setup [Easy Automated Home Media Server: VPN, Radarr, Sonarr, Lidarr, Librarian in 10 Minutes.](https://www.youtube.com/watch?v=5rtGBwBuzQE)
 
