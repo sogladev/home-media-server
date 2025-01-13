@@ -1,9 +1,15 @@
 {
-    "extends": [
-        "config:recommended"
-    ],
-    "docker": {
-        "matchCategories": ["docker"],
-        "enabled": true
+  "extends": ["config:recommended"],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "renovate.yml",
+        "validate-docker-compose.yml",
+        "validate-env.yml",
+        "docker-compose-novpn.yml",
+        "docker-compose.yml"
+      ],
+      "datasourceTemplate": "docker"
     }
+  ]
 }
