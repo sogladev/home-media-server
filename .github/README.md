@@ -13,27 +13,27 @@ Optional Stacks:
 
 ## Services and their use
 
-| Service                                                 | Use                        |
-| ------------------------------------------------------- | -------------------------- |
-| [bazarr](https://www.bazarr.media/)                     | Subtitle management        |
-| [calibre](https://calibre-ebook.com/)                   | Ebook management           |
-| [calibre-web](https://github.com/janeczku/calibre-web)  | Web interface for Calibre  |
-| [filebrowser](https://filebrowser.org/)                 | File management            |
-| [freshrss](https://freshrss.org/)                       | RSS feed reader            |
-| [jellyfin](https://jellyfin.org/)                       | Media server               |
-| [jellyseerr](https://github.com/Fallenbagel/jellyseerr) | Media request management   |
-| [lidarr](https://lidarr.audio/)                         | Music collection manager   |
-| [linkwarden](https://github.com/linkwarden/linkwarden)  | Bookmark manager           |
-| [openbooks](https://github.com/evan-buss/openbooks)     | Book searcher (\*)         |
-| [organizr](https://github.com/causefx/Organizr)                       | Unified web interface      |
-| [overseerr](https://overseerr.dev/)                     | Media request management   |
-| [plex](https://www.plex.tv/)                            | Media server               |
-| [prowlarr](https://prowlarr.com/)                       | Indexer manager            |
-| [radarr](https://radarr.video/)                         | Movie collection manager   |
-| [sonarr](https://sonarr.tv/)                            | TV show collection manager |
-| [soularr](https://soularr.net)                    | connects Lidarr with Soulseek
-| [slsk](https://www.slsknet.org/)                    | Soulseek P2P file sharing           |
-| [transmission](https://transmissionbt.com/)             | BitTorrent client          |
+| Service                                                 | Use                           |
+| ------------------------------------------------------- | ----------------------------- |
+| [bazarr](https://www.bazarr.media/)                     | Subtitle management           |
+| [calibre](https://calibre-ebook.com/)                   | Ebook management              |
+| [calibre-web](https://github.com/janeczku/calibre-web)  | Web interface for Calibre     |
+| [filebrowser](https://filebrowser.org/)                 | File management               |
+| [freshrss](https://freshrss.org/)                       | RSS feed reader               |
+| [jellyfin](https://jellyfin.org/)                       | Media server                  |
+| [jellyseerr](https://github.com/Fallenbagel/jellyseerr) | Media request management      |
+| [lidarr](https://lidarr.audio/)                         | Music collection manager      |
+| [linkwarden](https://github.com/linkwarden/linkwarden)  | Bookmark manager              |
+| [openbooks](https://github.com/evan-buss/openbooks)     | Book searcher (\*)            |
+| [organizr](https://github.com/causefx/Organizr)         | Unified web interface         |
+| [overseerr](https://overseerr.dev/)                     | Media request management      |
+| [plex](https://www.plex.tv/)                            | Media server                  |
+| [prowlarr](https://prowlarr.com/)                       | Indexer manager               |
+| [radarr](https://radarr.video/)                         | Movie collection manager      |
+| [sonarr](https://sonarr.tv/)                            | TV show collection manager    |
+| [soularr](https://soularr.net)                          | connects Lidarr with Soulseek |
+| [slsk](https://www.slsknet.org/)                        | Soulseek P2P file sharing     |
+| [transmission](https://transmissionbt.com/)             | BitTorrent client             |
 
 ```
 (*) Alternative:  Library Genesis (Libgen)
@@ -115,27 +115,27 @@ After launching for the first time, some configuration is required. Always refer
 
 Config through web by going to `http://0.0.0.0:{port}/`
 
-| Port  | Application   | Domain                          | Domain Short |
-| ----- | ------------- | ------------------------------- | ------------ |
-| 6767  | bazarr        | bazarr.domain.duckdns.org       | b            |
-| 8093  | calibre https | calibre.domain.duckdns.org      | c            |
-| 8092  | calibre http  |                                 |              |
-| 8083  | calibre-web   | calibre-web.domain.duckdns.org  | cw           |
-| 8090  | filebrowser   | filebrowser.domain.duckdns.org  | f            |
-| 9092  | freshrss      | freshrss.domain.duckdns.org     | rss          |
-| 8096  | jellyfin      | jellyfin.domain.duckdns.org     | j            |
-| 5056  | jellyseerr    | jellyseerr.domain.duckdns.org   | js           |
-| 8686  | lidarr        | lidarr.domain.duckdns.org       | l            |
-| 9093  | linkwarden    | linkwarden.domain.duckdns.org   | lw           |
-| 8099  | openbooks     | openbooks.domain.duckdns.org    | op           |
-| 9983  | organizr      | organizr.domain.duckdns.org     | o            |
-| 5055  | overseerr     | overseerr.domain.duckdns.org    | ov           |
-| 32400 | plex          | plex.domain.duckdns.org         | p            |
-| 9696  | prowlarr      | prowlarr.domain.duckdns.org     | pr           |
-| 7880  | radarr        | radarr.domain.duckdns.org       | r            |
-| 5030  | slsk (soulseek)      | soulseek.domain.duckdns.org     | so           |
-| 8989  | sonarr        | sonarr.domain.duckdns.org       | s            |
-| 9091  | transmission  | transmission.domain.duckdns.org | t            |
+| Port  | Application     | Domain                          | Domain Short |
+| ----- | --------------- | ------------------------------- | ------------ |
+| 6767  | bazarr          | bazarr.domain.duckdns.org       | b            |
+| 8093  | calibre https   | calibre.domain.duckdns.org      | c            |
+| 8092  | calibre http    |                                 |              |
+| 8083  | calibre-web     | calibre-web.domain.duckdns.org  | cw           |
+| 8090  | filebrowser     | filebrowser.domain.duckdns.org  | f            |
+| 9092  | freshrss        | freshrss.domain.duckdns.org     | rss          |
+| 8096  | jellyfin        | jellyfin.domain.duckdns.org     | j            |
+| 5056  | jellyseerr      | jellyseerr.domain.duckdns.org   | js           |
+| 8686  | lidarr          | lidarr.domain.duckdns.org       | l            |
+| 9093  | linkwarden      | linkwarden.domain.duckdns.org   | lw           |
+| 8099  | openbooks       | openbooks.domain.duckdns.org    | op           |
+| 9983  | organizr        | organizr.domain.duckdns.org     | o            |
+| 5055  | overseerr       | overseerr.domain.duckdns.org    | ov           |
+| 32400 | plex            | plex.domain.duckdns.org         | p            |
+| 9696  | prowlarr        | prowlarr.domain.duckdns.org     | pr           |
+| 7880  | radarr          | radarr.domain.duckdns.org       | r            |
+| 5030  | slsk (soulseek) | soulseek.domain.duckdns.org     | so           |
+| 8989  | sonarr          | sonarr.domain.duckdns.org       | s            |
+| 9091  | transmission    | transmission.domain.duckdns.org | t            |
 
 ### Transmission
 
@@ -144,6 +144,7 @@ downloads: `/data/torrents`
 incomplete: `/data/torrents/incomplete`
 
 #### non-default web UI
+
 manually install
 
 https://github.com/johman10/flood-for-transmission
