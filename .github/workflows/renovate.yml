@@ -3,7 +3,18 @@ name: renovate
 on:
   schedule:
     - cron: '0 0 */14 * *' # Runs every 2 weeks
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Override default log level"
+        required: false
+        default: "info"
+        type: string
+      overrideSchedule:
+        description: "Override all schedules"
+        required: false
+        default: "false"
+        type: string
   push:
     branches: [ main ]
   pull_request:
@@ -14,21 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Create config file to allow "latest" and "dev" tags
-      - name: Create config file
-        run: |
-          cat <<EOL > renovate.json
-          {
-          "extends": [
-              "config:base"
-          ],
-          "docker": {
-              "enabled": true
-          }
-          EOL
+        uses: actions/checkout@v4
+      - name: Validate Renovate JSON
+        run: jq type .github/renovate.json
       - name: Renovate Bot GitHub Action
         uses: renovatebot/github-action@v41.0.8
         with:
+          configurationFile: .github/renovate.json
           token: ${{ secrets.GITHUB_TOKEN }}
+
