@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 0 */14 * *' # Runs every 2 weeks
   workflow_dispatch: # Allows manual triggering
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   renovate:
