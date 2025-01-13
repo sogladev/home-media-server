@@ -7,5 +7,7 @@
     "digest": {
       "enabled": false
     }
-  }
+  },
+  "onboarding": false,
+  "repositories": ["sogladev/home-media-server"]
 }
