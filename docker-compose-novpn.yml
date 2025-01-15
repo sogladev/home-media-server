@@ -107,7 +107,7 @@ services:
     restart: unless-stopped
 
   lidarr:
-    image: linuxserver/lidarr:2.7.1
+    image: linuxserver/lidarr:2.8.2
     container_name: "lidarr"
     volumes:
       - /etc/localtime:/etc/localtime:ro
