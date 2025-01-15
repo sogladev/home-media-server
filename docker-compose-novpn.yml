@@ -254,7 +254,7 @@ services:
     container_name: soularr
     volumes:
       - ${HMS_ROOT_APPDATA}/soularr:/data
-      - ${HMS_ROOT_DATA}:/data/soulseek/downloads
+      - ${HMS_ROOT_DATA}/soulseek/downloads:/downloads
     environment:
       - SCRIPT_INTERVAL=1800 # in seconds
     env_file:
