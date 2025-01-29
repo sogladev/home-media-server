@@ -93,7 +93,7 @@ services:
     user: 1000:1000
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:2.2.3
+    image: fallenbagel/jellyseerr:2.3.0
     container_name: jellyseerr
     volumes:
       - /etc/localtime:/etc/localtime:ro
