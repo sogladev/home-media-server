@@ -207,7 +207,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: linuxserver/radarr:5.15.1
+    image: linuxserver/radarr:5.17.2
     container_name: radarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
