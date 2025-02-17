@@ -237,7 +237,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr:4.0.12
+    image: linuxserver/sonarr:4.0.13
     container_name: sonarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
