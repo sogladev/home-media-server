@@ -17,7 +17,7 @@ services:
       driver: json-file
 
   calibre:
-    image: linuxserver/calibre:7.24.0
+    image: linuxserver/calibre:7.26.0
     container_name: calibre
     volumes:
       - /etc/localtime:/etc/localtime:ro
