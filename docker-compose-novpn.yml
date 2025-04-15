@@ -173,7 +173,7 @@ services:
     restart: unless-stopped
 
   plex:
-    image: linuxserver/plex:1.41.4
+    image: linuxserver/plex:1.41.6
     container_name: plex
     volumes:
       - /etc/localtime:/etc/localtime:ro
