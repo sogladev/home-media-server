@@ -2,7 +2,7 @@ name: "traefik"
 
 services:
   traefik:
-    image: traefik:v3.4.4
+    image: traefik:v3.5.0
     container_name: traefik
     volumes:
       - /etc/localtime:/etc/localtime:ro
