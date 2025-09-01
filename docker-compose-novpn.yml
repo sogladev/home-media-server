@@ -172,19 +172,6 @@ services:
       - '${HMS_OVERSEERR_PORT:-5055}:5055'
     restart: unless-stopped
 
-  plex:
-    image: linuxserver/plex:1.41.9
-    container_name: plex
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${HMS_ROOT_APPDATA}/plex:/config
-      - ${HMS_ROOT_DATA}/media:/data/media
-    env_file:
-      - stack.env
-    ports:
-      - '${HMS_PLEX_PORT:-32400}:32400'
-    restart: unless-stopped
-
   postgres:
     image: postgres:16-alpine
     container_name: "linkwarden-postgres"
