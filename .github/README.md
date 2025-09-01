@@ -156,13 +156,13 @@ manually install
 
 https://github.com/johman10/flood-for-transmission
 
-1. cd appdata/transmission
-2. curl
-3. unzip
+1. cd `appdata/transmission`
+2. curl / download
+3. extract so that `appdata/transmission/flood-for-transmission`
 
 ### Prowlarr
 
-https://docs.prowler.com/projects/prowler-open-source/en/latest/
+https://prowlarr.com/#downloads-v3-docker
 
 instead of localhost, use their service names:
 
