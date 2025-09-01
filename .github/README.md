@@ -1,6 +1,6 @@
 # Home Media Server
 
-`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, web links, rss feeds and eBooks + Kobo eReader sync. Featuring apps like Plex/Jellyfin, Overseerr/Jellyseerr, Transmission, Prowlarr, Radarr, Sonarr, Lidarr, Freshrss, Linkwarden, Calibre, and Filebrowser, this server empowers you to enjoy and organize your media collection with ease.
+`docker-compose.yml` setup for a comprehensive home media server stack. Seamlessly manage and access your content, including movies, TV shows, music, web links, rss feeds and eBooks + Kobo eReader sync. Featuring apps like Plex/Jellyfin, Overseerr/Jellyseerr, Transmission, Prowlarr, Radarr, Sonarr, Lidarr, Freshrss, Linkwarden, Calibre, and Copyparty, this server empowers you to enjoy and organize your media collection with ease.
 
 You have two configuration options:
 
