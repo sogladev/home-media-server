@@ -2,7 +2,7 @@ name: "home-media-server-novpn"
 
 services:
   bazarr:
-    image: hotio/bazarr:release-1.5.1
+    image: linuxserver/bazarr:1.5.2
     container_name: bazarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
