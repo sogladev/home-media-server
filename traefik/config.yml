@@ -21,11 +21,11 @@ http:
         - "http"
       rule: "Host(`calibre-web.mycooldomain.duckdns.org`) || Host(`cw.mycooldomain.duckdns.org`)"
       service: calibre-web
-    filebrowser:
+    copyparty:
       entryPoints:
         - "http"
-      rule: "Host(`filebrowser.mycooldomain.duckdns.org`) || Host(`f.mycooldomain.duckdns.org`)"
-      service: filebrowser
+      rule: "Host(`copyparty.mycooldomain.duckdns.org`) || Host(`cp.mycooldomain.duckdns.org`)"
+      service: copyparty
     freshrss:
       entryPoints:
         - "http"
@@ -110,10 +110,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://mycooldomain.duckdns.org:8083"
-    filebrowser:
+    copyparty:
       loadBalancer:
         servers:
-          - url: "http://mycooldomain.duckdns.org:8090"
+          - url: "http://mycooldomain.duckdns.org:3923"
     freshrss:
       loadBalancer:
         servers:
@@ -220,11 +220,11 @@ http:
         - "http"
       rule: "Host(`calibre-web.mycooldomain.duckdns.org`) || Host(`cw.mycooldomain.duckdns.org`)"
       service: calibre-web
-    filebrowser:
+    copyparty:
       entryPoints:
         - "http"
-      rule: "Host(`filebrowser.mycooldomain.duckdns.org`) || Host(`f.mycooldomain.duckdns.org`)"
-      service: filebrowser
+      rule: "Host(`copyparty.mycooldomain.duckdns.org`) || Host(`cp.mycooldomain.duckdns.org`)"
+      service: copyparty
     freshrss:
       entryPoints:
         - "http"
@@ -314,10 +314,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://mycooldomain.duckdns.org:8083"
-    filebrowser:
+    copyparty:
       loadBalancer:
         servers:
-          - url: "http://mycooldomain.duckdns.org:8090"
+          - url: "http://mycooldomain.duckdns.org:3923"
     freshrss:
       loadBalancer:
         servers:

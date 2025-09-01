@@ -18,7 +18,7 @@ Optional Stacks:
 | [bazarr](https://www.bazarr.media/)                     | Subtitle management           |
 | [calibre](https://calibre-ebook.com/)                   | Ebook management              |
 | [calibre-web](https://github.com/janeczku/calibre-web)  | Web interface for Calibre     |
-| [filebrowser](https://filebrowser.org/)                 | File management               |
+| [copyparty](https://github.com/9001/copyparty)          | Portable file server          |
 | [freshrss](https://freshrss.org/)                       | RSS feed reader               |
 | [jellyfin](https://jellyfin.org/)                       | Media server                  |
 | [jellyseerr](https://github.com/Fallenbagel/jellyseerr) | Media request management      |
@@ -47,7 +47,7 @@ Optional Stacks:
      ├── bazarr
      ├── calibre
      ├── calibre-web
-     ├── filebrowser
+     ├── copyparty
      ├── freshrss
      ├── jackett
      ├── jellyfin
@@ -67,10 +67,10 @@ Optional Stacks:
      ├── traefik
      └── transmission
 └── data
+     ├── copyparty-pub
      ├── media
      │   ├── books
      │   ├── books_not_in_library
-     │   ├── filebrowser
      │   ├── movies
      │   ├── music
      │   └── tv
@@ -84,8 +84,9 @@ Optional Stacks:
 ```
 
 ```sh
-mkdir -p appdata/{bazarr,calibre,calibre-web,filebrowser,freshrss,jackett,jellyfin,jellyseerr,lidarr,linkwarden,openbooks,organizr,overseerr,plex,prowlarr,radarr,slskd,sonarr,soularr,soulseek,traefik,transmission} \
-data/media/{books,books_not_in_library,filebrowser,movies,music,tv} \
+mkdir -p appdata/{bazarr,calibre,calibre-web,copyparty,freshrss,jackett,jellyfin,jellyseerr,lidarr,linkwarden,openbooks,organizr,overseerr,plex,prowlarr,radarr,slskd,sonarr,soularr,soulseek,traefik,transmission} \
+data/copyparty-pub \
+data/media/{books,books_not_in_library,movies,music,tv} \
 data/soulseek/{downloads,incomplete} \
 data/torrents/{incomplete,movies,tv}
 ```
@@ -128,7 +129,7 @@ Config through web by going to `http://0.0.0.0:{port}/`
 | 8093  | calibre https   | calibre.domain.duckdns.org      | c            |
 | 8092  | calibre http    |                                 |              |
 | 8083  | calibre-web     | calibre-web.domain.duckdns.org  | cw           |
-| 8090  | filebrowser     | filebrowser.domain.duckdns.org  | f            |
+| 3923  | copyparty       | copyparty.domain.duckdns.org    | cp           |
 | 9092  | freshrss        | freshrss.domain.duckdns.org     | rss          |
 | 8096  | jellyfin        | jellyfin.domain.duckdns.org     | j            |
 | 5056  | jellyseerr      | jellyseerr.domain.duckdns.org   | js           |
@@ -276,6 +277,22 @@ https://soularr.net
 `appdata/soularr/config.ini`
 
 setup API Key for Soularr and Lidarr
+
+### Copyparty
+
+https://github.com/9001/copyparty
+
+https://github.com/9001/copyparty/blob/hovudstraum/docs/example.conf
+
+
+`appdata/copyparty/config.conf`
+
+port must match docker expose port
+
+```
+[global]
+  p: 3923
+```
 
 ## Credits
 
