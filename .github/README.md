@@ -253,7 +253,19 @@ https://github.com/causefx/Organizr
 default username and password:
 slskd
 
+soularr api_keys
+
+change passwords:
+```
+localusername
+localpassword
+username
+mysecurepassword
+```
+
 example config in `slskd/slskd.yml`
+
+`appdata/slskd/slskd.yml`
 
 ## Credits
 
