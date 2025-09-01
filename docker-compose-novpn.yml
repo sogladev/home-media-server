@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
 
   freshrss:
-    image: linuxserver/freshrss:1.26.3
+    image: linuxserver/freshrss:1.27.0
     container_name: freshrss
     volumes:
       - ${HMS_ROOT_APPDATA}/freshrss/config:/config
