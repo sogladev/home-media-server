@@ -83,6 +83,13 @@ Optional Stacks:
           └── tv
 ```
 
+```sh
+mkdir -p appdata/{bazarr,calibre,calibre-web,filebrowser,freshrss,jackett,jellyfin,jellyseerr,lidarr,linkwarden,openbooks,organizr,overseerr,plex,prowlarr,radarr,slskd,sonarr,soularr,soulseek,traefik,transmission} \
+data/media/{books,books_not_in_library,filebrowser,movies,music,tv} \
+data/soulseek/{downloads,incomplete} \
+data/torrents/{incomplete,movies,tv}
+```
+
 ## Deploying the stack
 
 This section covers deployment options for your home media server stack. You can choose to deploy using Portainer, Docker Compose with Docker Desktop, or Podman. Each method has its own advantages, but for simplicity and ease of use, I recommend using Portainer.
@@ -149,13 +156,13 @@ manually install
 
 https://github.com/johman10/flood-for-transmission
 
-1. cd appdata/transmission
-2. curl
-3. unzip
+1. cd `appdata/transmission`
+2. curl / download
+3. extract so that `appdata/transmission/flood-for-transmission`
 
 ### Prowlarr
 
-https://docs.prowler.com/projects/prowler-open-source/en/latest/
+https://prowlarr.com/#downloads-v3-docker
 
 instead of localhost, use their service names:
 
@@ -164,7 +171,7 @@ http://prowlarr:9696
 http://radarr:7878
 ```
 
-### Sonarr, radarr, lidarr
+### Sonarr, radarr
 
 These services require you to setup an indexer (prowlarr) and a download client (transmission)
 
@@ -224,36 +231,6 @@ http://localhost:8083/calibreweb/kobo/{token}/v1/library/sync
 
 Go the api_endpoint in browser. If this is empty, consider pressing "Force full kobo sync" in the user options in calibre-web
 
-### Filebrowser
-
-`- /home/${USER}/Applications/Filebrowser:/srv`
-
-Mounts a single folder called Filebrowser to /srv. This folder must be empty.
-
-Other folders are mounted as such: /srv/Pictures
-so they are accessible in the container as /Pictures
-
-This will create Pictures/ under Applications. Pictures/ will be empty
-
-filebrowser.db must exist before mounting, else mounts a directory
-`touch filebrowser.db`
-
-same with settings.json
-
-```
-❯ cat settings.json
-{
-  "port": 80,
-  "baseURL": "",
-  "address": "",
-  "log": "stdout",
-  "database": "/database/filebrowser.db",
-  "root": "/srv"
-}
-```
-
-admin/admin on initial login :8090
-
 ### Openbooks
 
 documentation: https://evan-buss.github.io/openbooks/setup/docker/
@@ -276,7 +253,29 @@ https://github.com/causefx/Organizr
 default username and password:
 slskd
 
+soularr api_keys for use in `Soularr` setup below
+
+change passwords:
+```
+localusername
+localpassword
+username
+mysecurepassword
+```
+
 example config in `slskd/slskd.yml`
+
+`appdata/slskd/slskd.yml`
+
+### Lidarr + Soularr
+
+Lidarr only requires a root folder to be setup. Soularr handles starting downloads with Slskd
+
+https://soularr.net
+
+`appdata/soularr/config.ini`
+
+setup API Key for Soularr and Lidarr
 
 ## Credits
 

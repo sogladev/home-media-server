@@ -2,7 +2,7 @@ name: "home-media-server-novpn"
 
 services:
   bazarr:
-    image: hotio/bazarr:release-1.5.1
+    image: linuxserver/bazarr:1.5.2
     container_name: bazarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -41,24 +41,6 @@ services:
       - stack.env
     ports:
       - '${HMS_CALIBRE_WEB_PORT:-8083}:8083'
-    restart: unless-stopped
-
-  filebrowser:
-    image: filebrowser/filebrowser:v2-s6
-    container_name: filebrowser
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${HMS_ROOT_APPDATA}/filebrowser/filebrowser.db:/database/filebrowser.db
-      - ${HMS_ROOT_APPDATA}/filebrowser/settings.json:/config/settings.json
-      # Shared folders root is /srv
-      # After updating folders run: rm filebrowser.db ; touch filebrowser.db ; rm -rf ~/Filebrowser/*
-      - ${HMS_ROOT_DATA}/media/filebrowser:/srv
-    environment:
-      - FB_BASEURL=/filebrowser
-    env_file:
-      - stack.env
-    ports:
-      - '${HMS_FILEBROWSER_PORT:-8090}:80'
     restart: unless-stopped
 
   freshrss:
@@ -170,19 +152,6 @@ services:
       - stack.env
     ports:
       - '${HMS_OVERSEERR_PORT:-5055}:5055'
-    restart: unless-stopped
-
-  plex:
-    image: linuxserver/plex:1.41.9
-    container_name: plex
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${HMS_ROOT_APPDATA}/plex:/config
-      - ${HMS_ROOT_DATA}/media:/data/media
-    env_file:
-      - stack.env
-    ports:
-      - '${HMS_PLEX_PORT:-32400}:32400'
     restart: unless-stopped
 
   postgres:
