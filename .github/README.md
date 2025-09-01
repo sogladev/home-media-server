@@ -171,7 +171,7 @@ http://prowlarr:9696
 http://radarr:7878
 ```
 
-### Sonarr, radarr, lidarr
+### Sonarr, radarr
 
 These services require you to setup an indexer (prowlarr) and a download client (transmission)
 
@@ -253,7 +253,7 @@ https://github.com/causefx/Organizr
 default username and password:
 slskd
 
-soularr api_keys
+soularr api_keys for use in `Soularr` setup below
 
 change passwords:
 ```
@@ -266,6 +266,16 @@ mysecurepassword
 example config in `slskd/slskd.yml`
 
 `appdata/slskd/slskd.yml`
+
+### Lidarr + Soularr
+
+Lidarr only requires a root folder to be setup. Soularr handles starting downloads with Slskd
+
+https://soularr.net
+
+`appdata/soularr/config.ini`
+
+setup API Key for Soularr and Lidarr
 
 ## Credits
 
