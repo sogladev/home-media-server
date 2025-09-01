@@ -191,6 +191,7 @@ services:
   slskd:
     image: slskd/slskd:0.22.1.65534-b18f7b00
     container_name: slskd
+    user: "1000:1000"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${HMS_ROOT_APPDATA}/slskd:/app
