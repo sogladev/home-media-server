@@ -51,7 +51,7 @@ services:
       - '${HMS_COPYPARTY_PORT:-3923}:3923'
     volumes:
       - ${HMS_ROOT_APPDATA}/copyparty/:/cfg:z
-      - ${HMS_ROOT_DATA}/media/copyparty-pub:/w:z
+      - ${HMS_ROOT_DATA}/copyparty-pub:/w:z
 
     environment:
       LD_PRELOAD: /usr/lib/libmimalloc-secure.so.NOPE
