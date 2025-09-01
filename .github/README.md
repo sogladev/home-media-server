@@ -83,6 +83,13 @@ Optional Stacks:
           └── tv
 ```
 
+```sh
+mkdir -p appdata/{bazarr,calibre,calibre-web,filebrowser,freshrss,jackett,jellyfin,jellyseerr,lidarr,linkwarden,openbooks,organizr,overseerr,plex,prowlarr,radarr,slskd,sonarr,soularr,soulseek,traefik,transmission} \
+data/media/{books,books_not_in_library,filebrowser,movies,music,tv} \
+data/soulseek/{downloads,incomplete} \
+data/torrents/{incomplete,movies,tv}
+```
+
 ## Deploying the stack
 
 This section covers deployment options for your home media server stack. You can choose to deploy using Portainer, Docker Compose with Docker Desktop, or Podman. Each method has its own advantages, but for simplicity and ease of use, I recommend using Portainer.
