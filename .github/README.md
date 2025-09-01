@@ -231,36 +231,6 @@ http://localhost:8083/calibreweb/kobo/{token}/v1/library/sync
 
 Go the api_endpoint in browser. If this is empty, consider pressing "Force full kobo sync" in the user options in calibre-web
 
-### Filebrowser
-
-`- /home/${USER}/Applications/Filebrowser:/srv`
-
-Mounts a single folder called Filebrowser to /srv. This folder must be empty.
-
-Other folders are mounted as such: /srv/Pictures
-so they are accessible in the container as /Pictures
-
-This will create Pictures/ under Applications. Pictures/ will be empty
-
-filebrowser.db must exist before mounting, else mounts a directory
-`touch filebrowser.db`
-
-same with settings.json
-
-```
-❯ cat settings.json
-{
-  "port": 80,
-  "baseURL": "",
-  "address": "",
-  "log": "stdout",
-  "database": "/database/filebrowser.db",
-  "root": "/srv"
-}
-```
-
-admin/admin on initial login :8090
-
 ### Openbooks
 
 documentation: https://evan-buss.github.io/openbooks/setup/docker/
