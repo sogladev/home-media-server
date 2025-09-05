@@ -51,6 +51,8 @@ Optional Stacks:
      ├── freshrss
      ├── jackett
      ├── jellyfin
+     │   ├── config
+     │   └── cache
      ├── jellyseerr
      ├── lidarr
      ├── linkwarden
@@ -87,6 +89,7 @@ Optional Stacks:
 mkdir -p appdata/{bazarr,calibre,calibre-web,copyparty,freshrss,jackett,jellyfin,jellyseerr,lidarr,linkwarden,openbooks,organizr,overseerr,plex,prowlarr,radarr,slskd,sonarr,soularr,soulseek,traefik,transmission} \
 data/copyparty-pub \
 data/media/{books,books_not_in_library,movies,music,tv} \
+appdata/jellyfin/{cache,config} \
 data/soulseek/{downloads,incomplete} \
 data/torrents/{incomplete,movies,tv}
 ```
