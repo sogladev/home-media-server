@@ -7,7 +7,7 @@ services:
     user: "1000:1000"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${HMS_ROOT_APPDATA}/bazarr:/config
+      - ${HMS_ROOT_APPDATA}/bazarr/config:/config
       - ${HMS_ROOT_DATA}:/data
     environment:
       - stack.env
