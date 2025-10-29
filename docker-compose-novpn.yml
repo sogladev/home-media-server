@@ -81,7 +81,7 @@ services:
     restart: unless-stopped
 
   jellyfin:
-    image: jellyfin/jellyfin:2024123005
+    image: jellyfin/jellyfin:2025102705
     container_name: jellyfin
     volumes:
       - /etc/localtime:/etc/localtime:ro
