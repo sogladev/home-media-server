@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
 
   copyparty:
-    image: copyparty/ac:1.19.7
+    image: copyparty/ac:1.19.22
     container_name: copyparty
     user: "1000:1000"
     ports:
