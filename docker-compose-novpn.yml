@@ -70,7 +70,7 @@ services:
       start_period: 15s
 
   freshrss:
-    image: linuxserver/freshrss:1.27.0
+    image: linuxserver/freshrss:1.27.1
     container_name: freshrss
     volumes:
       - ${HMS_ROOT_APPDATA}/freshrss/config:/config
