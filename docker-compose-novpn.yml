@@ -2,7 +2,7 @@ name: "home-media-server-novpn"
 
 services:
   bazarr:
-    image: linuxserver/bazarr:1.5.2
+    image: linuxserver/bazarr:1.5.3
     container_name: bazarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -17,7 +17,7 @@ services:
       driver: json-file
 
   calibre:
-    image: linuxserver/calibre:7.26.0
+    image: linuxserver/calibre:8.16.2
     container_name: calibre
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
 
   copyparty:
-    image: copyparty/ac:1.19.7
+    image: copyparty/ac:1.19.22
     container_name: copyparty
     user: "1000:1000"
     ports:
@@ -70,7 +70,7 @@ services:
       start_period: 15s
 
   freshrss:
-    image: linuxserver/freshrss:1.27.0
+    image: linuxserver/freshrss:1.27.1
     container_name: freshrss
     volumes:
       - ${HMS_ROOT_APPDATA}/freshrss/config:/config
@@ -115,7 +115,7 @@ services:
     restart: unless-stopped
 
   lidarr:
-    image: linuxserver/lidarr:2.14.5
+    image: linuxserver/lidarr:3.1.0
     container_name: "lidarr"
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -128,7 +128,7 @@ services:
     restart: unless-stopped
 
   linkwarden:
-    image: ghcr.io/linkwarden/linkwarden:v2.12.2
+    image: ghcr.io/linkwarden/linkwarden:v2.13.2
     container_name: "linkwarden"
     depends_on:
       - postgres
@@ -202,7 +202,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: linuxserver/radarr:5.26.2
+    image: linuxserver/radarr:5.28.0
     container_name: radarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -233,7 +233,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: linuxserver/sonarr:4.0.15
+    image: linuxserver/sonarr:4.0.16
     container_name: sonarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
