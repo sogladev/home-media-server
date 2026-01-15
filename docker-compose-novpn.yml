@@ -190,7 +190,7 @@ services:
     restart: unless-stopped
 
   prowlarr:
-    image: linuxserver/prowlarr:1.37.0
+    image: linuxserver/prowlarr:2.3.0
     container_name: prowlarr
     volumes:
       - /etc/localtime:/etc/localtime:ro
