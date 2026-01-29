@@ -260,7 +260,7 @@ services:
     hostname: soularr
 
   transmission:
-    image: linuxserver/transmission:4.0.6
+    image: linuxserver/transmission:4.1.0
     container_name: transmission
     volumes:
       - /etc/localtime:/etc/localtime:ro
