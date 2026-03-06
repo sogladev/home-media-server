@@ -128,22 +128,6 @@ services:
       - '${HMS_LIDARR_PORT:-8686}:8686'
     restart: unless-stopped
 
-  linkwarden:
-    image: ghcr.io/linkwarden/linkwarden:v2.12.2
-    container_name: "linkwarden"
-    depends_on:
-      - postgres
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${HMS_ROOT_APPDATA}/linkwarden/data:/data/data
-    environment:
-      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
-    env_file:
-      - stack.env
-    ports:
-      - '${HMS_LINKWARDEN_PORT:-9093}:3000'
-    restart: always
-
   openbooks:
     image: evanbuss/openbooks:4.5.0
     container_name: openbooks
